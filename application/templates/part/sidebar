@@ -1,0 +1,61 @@
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#sidebarcontentsearch").bind('keyup',function(e){
+        if(e.keyCode=='13'){
+            $("#sidebarsearchbutton").click();
+        }
+    });
+    $("#sidebarsearchbutton").click(function(e){
+        var url= '/search/'+$('#sidebarcontentsearch').val();
+        location.href=url;
+    });
+});
+
+</script>
+<div id="sidebar">
+    <div class="spacecontent40"></div>
+    <div class="search sidebartype">
+        <h4>SEARCH</h4>
+
+        <input type="text" value="" id="sidebarcontentsearch" style="color:#FFFFFF;height:18px;background: #080808; border: 1px solid #000;padding: 5px 10px;border-radius: 15px;-webkit-border-radius: 15px;-moz-border-radius: 15px;width:140px;"/>
+        <input type="button" style="width:40px;height:30px;padding:0;margin:0;"id="sidebarsearchbutton" class="darkbutton" value="GO"/>
+    </div>
+    <div class="announcement sidebartype">
+        <h4>ANNOUNCEMENT</h4>
+        {%if g.announcement%}
+            {{g.announcement|safe}}....
+            <div id="seemore">
+                <a href="/post/{{g.announceid}}">see more &gt;&gt;&gt;</a>
+            </div>
+        {%endif%}
+        
+    </div>
+	<div class="tags sidebartype">
+        <h4>TAGS</h4>
+        <div class="tagcloud">
+        {%for item in g.tag%}
+            <div ><a class="tagitem" href="/tag/{{item.name}}">{{item.name}}</a></div>
+        {%endfor%}
+        </div>
+
+    </div>
+       <div class="links sidebartype">
+        <h4>LINKS</h4>
+        <div id="linkfield">
+            <ul>
+                {%for item in g.link%}
+
+                <li><a href="{{item.link}}">{{item.name}}</a></li>
+
+                {%endfor%}
+                <div id="seemore">
+                    {%if g.link|length >8 %}
+                    <a href="/link">see more &gt;&gt;&gt;</a>
+                    {%endif%}
+                </div>
+            </ul>
+        </div>
+    </div>
+  
+    
+</div>

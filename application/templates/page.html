@@ -1,0 +1,120 @@
+{%extends 'part/base'%}
+{%block title%}
+<title>{{post.title}}</title>
+<meta name="keywords" content="{%for tag in post.tags%}{{tag}} {%endfor%}">
+{%endblock title%}
+{%block main%}
+<div id="main">
+	<div class="spacecontent20"></div>
+	<input type="hidden" id="post_id" value="{{post.post_id}}">
+	<div id="page" class="post">
+		<div class="spacecontent20"></div>
+		<div id="title"><h3><a href="/post/{{post.post_id}}">{{post.title}}</a></h3></div>
+		<div id="time"><span class="smalltime">{{post.create_date}}</span></div>
+		<div class="pageline"></div>
+		<div id="pagecontent">
+			<div id="pagebody">
+				{{post.content|safe}}
+			</div>
+			<div id="pagefoot">
+				<div class="pageline"></div>
+				<div class="spacecontent40"></div>
+				Tags:<span id="tags">
+					{%for tag in post.tags%}
+					<a href="/tag/{{tag}}">{{tag}}</a>&nbsp;&nbsp;
+					{%endfor%}
+				</span>
+                Operation:<a href="/admin/post/{{post.post_id}}">Edit</a>
+				<div class="spacecontent20"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="spacecontent40"></div>
+{%endblock main%}
+
+{%block script%}
+	<link href="/static/css/syntaxhighlighter/shCore.css"  rel="stylesheet" type="text/css"/>
+	<link href="/static/css/syntaxhighlighter/shThemeRDark.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/lightbox.css">
+	<script type="text/javascript" src="/static/js/syntaxhighlighter/shCore.js"></script>
+	<script type="text/javascript" src="/static/js/syntaxhighlighter/shAutoloader.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.autoIMG.min.js"></script>
+    <script type="text/javascript" src="/static/js/lightbox.js"></script>
+
+<script type="text/javascript">
+
+function resizeImg(obj) { 
+    var obj = document.getElementById(obj); 
+    var objContent = obj.innerHTML;
+    var imgs = obj.getElementsByTagName('img'); 
+    if(imgs==null) return; 
+    for(var i=0; i<imgs.length; i++) { 
+        if(imgs[i].width>parseInt(obj.style.width)) { 
+            imgs[i].width = parseInt(obj.style.width);
+        } 
+    } 
+}
+function path()
+{
+    var args = arguments,
+    result = [];
+    for(var i = 0; i < args.length; i++)
+        result.push(args[i].replace('@', '/static/js/syntaxhighlighter/'));
+    return result
+};
+$(document).ready(function(){
+	//SyntaxHighlighter.vars.discoveredBrushes=null;
+	SyntaxHighlighter.autoloader.apply(null, path(
+    'applescript            @shBrushAppleScript.js',
+    'actionscript3 as3      @shBrushAS3.js',
+    'bash shell             @shBrushBash.js',
+    'coldfusion cf          @shBrushColdFusion.js',
+    'cpp c                  @shBrushCpp.js',
+    'c# c-sharp csharp      @shBrushCSharp.js',
+    'css                    @shBrushCss.js',
+    'delphi pascal          @shBrushDelphi.js',
+    'diff patch pas         @shBrushDiff.js',
+    'erl erlang             @shBrushErlang.js',
+    'groovy                 @shBrushGroovy.js',
+    'java                   @shBrushJava.js',
+    'jfx javafx             @shBrushJavaFX.js',
+    'js jscript javascript  @shBrushJScript.js',
+    'perl pl                @shBrushPerl.js',
+    'php                    @shBrushPhp.js',
+    'text plain             @shBrushPlain.js',
+    'py python              @shBrushPython.js',
+    'ruby rails ror rb      @shBrushRuby.js',
+    'sass scss              @shBrushSass.js',
+    'scala                  @shBrushScala.js',
+    'sql                    @shBrushSql.js',
+    'vb vbnet               @shBrushVb.js',
+    'xml xhtml xslt html    @shBrushXml.js'
+    ));
+	$('.smalltime').each(function(){
+		$(this).text(dateToString($(this).text(),"yyyy-MM-dd hh:mm"));
+	});
+	SyntaxHighlighter.all();
+	$('a[href*=#]').click(function() {
+    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') 
+        && location.hostname == this.hostname) {
+            var $target = $(this.hash);
+            $target = $target.length && $target || $('[name=' + this.hash.slice(1) +']');
+            if ($target.length) {
+                var targetOffset = $target.offset().top;
+                $('html,body').animate({scrollTop: targetOffset-36}, 1000);
+                return false;
+            }
+        }
+    });
+    //auto resize
+    $('#pagecontent').autoIMG();
+    //add lightbox
+    $('#page img').each(function (i){
+        var strA ="<a rel='lightbox[roadtrip]' href='" + this.src + "'></a>";
+        $(this).wrapAll(strA);
+    });
+});
+
+</script>
+{%endblock script%}

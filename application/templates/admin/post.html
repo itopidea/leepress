@@ -1,0 +1,139 @@
+{%extends 'admin/base'%}
+{%block admincontent%}
+{%if post%}
+<div id="admincontent">
+	<form name="input" id='postform' method="post" target="update">
+		<div id="right">
+		<input id='post_id' type="hidden" name="post_id" value="{{post.post_id}}" >
+		<iframe src='' name='update' height=0 width="0"></iframe><br/>
+		{%if post.saveonly%}
+			<input type="radio" name="posttype" id="saveonly" value="saveonly" checked="on">保存 <br>
+			<input type="radio" name="posttype" id="savepost" value="savepost">发布 <br>
+		{%else%}
+			<input type="radio" name="posttype" id="saveonly" value="saveonly">保存 <br>
+			<input type="radio" name="posttype" id="savepost" value="savepost" checked='on'>发布 <br>
+		{%endif%}
+		{%if post.allowcomment%}
+		<input type="checkbox" name="allowcomment" id="allowcomment" checked="on">允许评论 <br>
+		{%else%}
+		<input type="checkbox" name="allowcomment" id="allowcomment">允许评论 <br>
+		{%endif%}
+		<input type="submit" class="lightbutton" value="提交" id="submit">
+		</div>
+		<div id="left">
+			<div class="basebox">
+				<h4>title</h4>
+				<div>
+					<input type="text" size="80" name="title" id="title" value="{{post.title}}">
+				</div>
+				<div class="endline"></div>
+			</div>
+			<div class="basebox">
+				<h4>tags</h4>
+				<div>
+					<input type="text" size="80" name="tags" id='tags' 
+					value="{%for tag in post.tags%}{%if loop.index ==1 %}{{tag}}{%else%},{{tag}}{%endif%}{%endfor%}"/>
+				</div>
+				<div class="endline"></div>
+			</div>
+			
+		</div>
+	</form>
+	<div class="basebox">
+		<h4>content</h4>
+		<textarea id="content" name="content" rows="30" cols="100" style="width: 100%">
+			{{post.content}}
+		</textarea>
+		<div class="endline"></div>
+	</div>
+</div>
+{%else%}
+<div id="admincontent">
+	<form name="input" id='postform' method="post" target="update">
+		<div id="right">
+		<input id='post_id' type="hidden" name="post_id" value='-1'>
+		<iframe src='' name='update' height=0 width="0"></iframe><br/>
+		<input type="radio" name="posttype" id="saveonly" value="saveonly">仅保存 <br>	
+		<input type="radio" name="posttype" id="savepost" value="savepost" checked="true">发布 <br>
+		<input type="checkbox" name="allowcomment" id="allowcomment" checked="on">允许评论 <br>	
+		<input type="submit" value="提交" id="submit">
+		</div>
+		<div id="left">
+			<div class="basebox">
+				<h4>title</h4>
+				<div>
+					<input type="text" size="80" name="title" id="title" >
+				</div>
+				<div class="endline"></div>
+			</div>
+			<div class="basebox">
+				<h4>tags</h4>
+				<div>
+					<input type="text" size="80" name="tags" id='tags'>
+				</div>
+				<div class="endline"></div>
+			</div>
+			
+		</div>
+	</form>
+	<div class="basebox">
+		<h4>content</h4>
+		<textarea id="content" name="content" rows="25" cols="80" style="width: 90%">
+		</textarea>
+		<div class="endline"></div>
+	</div>
+	
+
+</div>
+{%endif%}
+{%endblock admincontent%}
+
+{%block script%}
+<script type="text/javascript" src="{{url_for('static',filename='js/tinymce/tiny_mce.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static',filename='js/script.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static',filename='js/admin.js')}}"></script>
+
+
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		tinyMCE.init(tinymce_obj);
+		//bind ctrl+s key function
+		
+		
+	  	$("form").submit(function(e){
+	    	if($("#post_id").val()!='-1'){
+	    		url='/post/updatepost'+"?"+$('#postform').serialize();
+	    	}
+	    	else{
+	    		url='/post/newpost'+"?"+$('#postform').serialize();
+	    	}
+	    	var content=encodeURIComponent(tinyMCE.get('content').getContent());
+	    	//alert(content);
+		    $.ajax({
+						cache: true,
+						type: "POST",
+						url:url,
+						data:content,
+						contentType:"text/plain",
+						async: true,
+						error: function(request) {
+							alert("Connection error");
+						},
+						success: function(data) {
+							// alert(data);
+							var result=eval('(' + data + ')');
+							var message="<span id='tmp'>文章保存成功，你可以</span><a target='view_window' href='/post/"+String(result.post_id);
+							message+="'>查看文章</a>";
+							$("#message").html("");
+							$("#message").html(message);
+							$("#post_id").val(result.post_id);
+							$("#tmp").fadeOut(2000);
+						}
+					});
+		    return false;
+		});
+});
+</script>
+
+{%endblock script%}

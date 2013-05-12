@@ -1,0 +1,479 @@
+::selection {background: #8AD459; color: #FFFFFF;}
+::-moz-selection {background: #8AD459; color: #FFFFFF;  }
+/*body::-webkit-selection{background: #333333; color: #D8D8D8;}*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre, a,
+abbr, acronym, address, big, cite, code, del, 
+dfn, em, img, ins, kbd, q, s, samp, small, strike, 
+strong, tt, var, b, u, i, center, dl, dt,
+dd, ol, ul, li, fieldset, form, label, legend,
+caption, article, aside,
+canvas, details, embed, figure, figcaption, footer, header,
+hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	/*font-size: 100%;*/
+	/*font: inherit;*/
+	vertical-align: baseline; }
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+	display: block; }
+body {
+	line-height: 1; }
+#topbar ol, #topbar ul {
+	list-style: none; }
+#nav ul{
+	list-style:none;
+}
+blockquote, q {
+	quotes: none; }
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none; }
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+  border-color: #D8D8D8; }
+th {
+  font-weight: 500;
+}
+
+
+
+/* 
+================================================== */
+body{
+  background-color: #121417;
+  background-image: linear-gradient(to bottom, #000000, #252A30);
+  background-repeat: repeat-x;
+  min-height: 100%;
+  font-family: "WenQuanYi Zen Hei","Microsoft YaHei","微软雅黑","Calibri";
+  color: #999999;
+}
+h1,h2,h3,h4,h5,h6{
+  color:#FFFFFF;
+}
+
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a { 
+  /*font-weight: inherit; */
+}
+h1 { font-size: 29px; line-height: 50px; margin-bottom: 14px;}
+h2 { font-size: 25px; line-height: 40px; margin-bottom: 10px; }
+h3 { font-size: 21px; line-height: 34px; margin-bottom: 8px; }
+h4 { font-size: 18px; line-height: 30px; margin-bottom: 4px; }
+h5 { font-size: 15px; line-height: 24px; }
+h6 { font-size: 13px; line-height: 21px; }
+
+/* #Links
+================================================== */
+a, a:visited { color: #8AD459; text-decoration: none; outline: 0; }
+a:hover, a:focus { color: #8AD459;text-decoration: underline }
+/*p a, p a:visited { line-height: inherit; }*/
+
+/* #Lists
+================================================== */
+/*ul, ol { margin-bottom: 20px; }*/
+/*ul { list-style: none outside; }*/
+ol, ul.square, ul.circle, ul.disc { margin-left: 30px; }
+ul.square { list-style: square outside; }
+ul.circle { list-style: circle outside; }
+ul.disc { list-style: disc outside; }
+/*ul ul, ul ol,
+ol ol, ol ul { margin: 4px 0 5px 30px; font-size: 90%;  }*/
+/*ul ul li, ul ol li,
+ol ol li, ol ul li { margin-bottom: 6px; }*/
+ul.large li { line-height: 21px; }
+
+
+/* #Images
+================================================== */
+
+img.scale-with-grid {
+	max-width: 100%;
+	height: auto; }
+
+/* #Buttons
+================================================== */
+
+.lightbutton{
+  color:#080808;
+ background-color: #8AD459 !important;
+ border-bottom-color: #8AD459 !important;
+ border-left-color: #8AD459 !important;
+ border-right-color: #8AD459 !important;
+ border-top-color: #8AD459 !important;
+}
+
+.darkbutton{
+  color:#8AD459;
+  background-color: #080808 !important;
+  border-bottom-color: #080808 !important;
+  border-left-color: #080808 !important;
+  border-right-color: #080808 !important;
+  border-top-color: #080808 !important;
+
+}
+
+button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+
+  border: 1px solid #aaa;
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-radius: 3px;
+  display: inline-block;
+  text-decoration: none;
+  cursor: pointer;
+ /* margin-bottom: 20px*/;
+  line-height: normal;
+  padding: 6px 8px;
+}
+
+/* You can also use a <br class='clear'/> to clear columns */
+.clear {
+  clear: both;
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+.sidebartype{
+margin:20px 0;
+padding:10px 10px;
+overflow:auto; zoom:1;
+background-color: #131517;
+border-radius: 4px;
+border-top: 1px solid #353535;
+box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.804);
+
+
+}
+.footbar{
+height:100px;
+}
+
+
+/* #Freeclassical
+================================================== */
+/*common used*/
+.spacecontent20{
+  height:20px;
+}
+.spacecontent40{
+  height:40px;
+}
+.clear{
+  clear: both;
+}
+.bottomline{
+  /*background-image: url("/static/images/sidebar_bg.jpg");*/
+  background-position: 0% 100%;
+  background-repeat: repeat-x;
+  border-bottom: 2px solid #333333;
+  padding: 10px 0;
+}
+.pageline{
+  background-image: url("/static/images/sidebar_bg.jpg");
+  background-position: 0% 100%;
+  background-repeat: repeat-x;
+  padding: 10px 0;
+}
+
+/* topbar
+================================================== */
+
+#topbar{
+  border-style: solid;
+  border-color: #030303;
+  border-bottom-width: 1px;
+  box-shadow: 0px 1px 4px #030303;
+  background: #131517;
+  height:35px;
+  position:fixed;
+  width:100%;
+  z-index:1000;
+  top:0px;
+}
+#topbar #logo{
+  float:left;
+  margin-left: 20px;
+  height:35px;
+}
+body #topbar #logo span a{
+  margin-bottom: 0px;
+  line-height: 35px;
+}
+
+
+
+body #topbar #logo{
+  background-image: url("/static/images/logo.png");
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+  /*z-index: 10000;*/
+  width:150px;
+}
+body #topbar #logo span{
+  font-family: "Microsoft YaHei";
+  /*font: normal normal 400 20px/35px*/
+  font-size: 20px;
+  line-height: 35px;
+  /*height: 35px;*/
+  margin-bottom: 0px;
+}
+
+
+#topbar li p { line-height: 21px; }
+
+#topbar li { line-height: 18px; margin-bottom: 12px; }
+
+#topbar #menu{
+  float:right;
+}
+#topbar #menu li{
+  float:left;
+  padding: 10px 10px 0 10px;
+  /*margin: 7px 10px 0 10px;*/
+}
+#topbar #menu li a,#topbar #menu li a:visited{
+
+  font-family: "Microsoft YaHei","微软雅黑","WenQuanYi Zen Hei","Calibri";
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  color:#8AD459;
+}
+#topbar #menu li a:hover,
+#topbar #menu li a:focus{
+  color:#FFFFFF;
+  text-decoration: none;
+}
+#topbar #message{
+  color:#FFFFFF;
+  text-align:center;
+  line-height:35px;
+  height:35px;
+  position:fixed;
+  width:100%;
+  z-index:-1;
+}
+#topbar #message a{
+  color:#8AD459;
+}
+
+body .post h3 {
+  font-family: "Microsoft YaHei","微软雅黑","WenQuanYi Zen Hei","Calibri";
+  /*font: normal normal 500 16px/20px;*/
+  font-size: 16px;
+  line-height: 20px;
+  /*height: 35px;*/
+  margin-bottom: 0px;
+}
+
+body #centerblock {
+  width:100%;
+  margin-top:35px;
+
+}
+body #centerblock #content #main{
+  padding-left: 280px;
+  padding-right:40px;
+  min-width: 500px;
+  max-width:960px;
+  font-family: "Microsoft YaHei","微软雅黑","WenQuanYi Zen Hei","Calibri";
+
+}
+body #centerblock #content #main h3{
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 35px;
+}
+body #centerblock #content #main .content{
+  padding:10px 0 10px 0;
+}
+body #centerblock #content #main .post{
+  padding:10px 20px;
+  margin:20px;
+  overflow: hidden;
+  border-top: 1px solid #353535;
+  background-color: #131517;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.804);
+  border-radius: 4px;
+}
+body #centerblock #content #main .smalltime{
+  font-size: 10px;
+  padding-left: 20px;
+}
+/* sidebar
+================================================== */
+#sidebar{
+  width:240px;
+  margin:0 15px 0 30px;
+  float:left;
+}
+#sidebar h4{
+  /*font-size : 14px;*/
+  width:220px;
+  background-image: url("/static/images/sidebar_bg.jpg");
+  background-position: 0% 100%;
+  background-repeat: repeat-x;
+  /*font: normal normal 400 14px/30px "Droid Sans";*/
+  font-family:"Microsoft YaHei", "微软雅黑", "WenQuanYi Zen Hei", "Droid Sans","Calibri";
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 30px;
+  clear: both;
+  margin-bottom: 14px;
+}
+#sidebar p{
+  width: 220px;
+}
+
+body #centerblock #content #sidebar .announcement{
+  font: normal normal 400 12px/14px Arial;
+}
+/* page
+================================================== */
+body #main #page #pagecontent #pagebody{
+  padding: 20px 0;
+}
+/*sidebar
+========================*/
+
+.tagcloud .tagitem{
+  background: #080808;
+  border-radius: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.804);
+  color: #8AD459;
+  display: inline;
+  float: left;
+  line-height: 15px;
+  margin: 4px 8px 4px 0px;
+  padding: 3px 15px;
+  white-space: nowrap;
+}
+.tagcloud a:link,
+.tagcloud a:visited { 
+  outline-width: 0px;
+  text-decoration: none;
+  transition-duration: 0.4s;
+  transition-property: all;
+}
+.tagcloud a:hover { 
+background: #8AD459;
+color: #080808;
+}
+.tagcloud a
+{
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 15px;
+}
+#sidebar #seemore{
+  font-size: 0.8em;
+  float:right;
+  padding-right: 40px;
+
+}
+
+#sidebar #linkfield a{
+  font-size:16px;
+  font-weight:500;
+  line-height:24px;
+  padding-left: 15px;
+}
+
+#sidebar #linkfield li{
+  list-style: none;
+}
+/*tag.html && tag_not_found.html
+=====================*/
+
+#main #tagnotfound {
+  background-image: url("/static/images/tag_not_found.png");
+  min-height:450px;
+  margin: 20px 0 0 0;
+  background-repeat: no-repeat;
+  background-position: center,center;
+}
+
+#main .pageindex {
+  height:35px;
+  /*position:relative;*/
+}
+
+#main .pageindex div{
+  height:100%;
+  line-height:35px;
+  float:left;
+}
+#main .pageindex ul{
+  vertical-align:middle;
+  display:table-cell;
+  float:left;
+  padding-top:5px;
+  /*position:absolute;*/
+  /*top:50%;*/
+}
+#main .pageindex ul li{
+  list-style: none;
+  height: 15px;
+  margin:0 4px;
+  float:left;
+  height: 100%;
+ 
+}
+
+#main .pageindex ul li .indexbutton{
+  padding: 2px 4px;
+  margin: 0;
+  border-radius: 3px;
+  line-height: 16px;
+  color:#FFFFFF;
+}
+#main .pageindex ul li .currentindexbutton{
+  padding: 2px 4px;
+  margin: 0px;
+  border-radius: 3px;
+  line-height: 16px;
+  color: #000000;
+
+}
+
+/* home/link
+=================*/
+
+#main #linkshow{
+  padding-top: 80px;
+  padding-left: 50px;
+}
+
+/*index-not-found.html
+==================*/
+#main #indexnotfound {
+  background-image: url("/static/images/page_not_found.png");
+  min-height:450px;
+  margin: 20px 0 0 0;
+  background-repeat: no-repeat;
+  background-position: center,center;
+}
+
+
+/*page.html and post in index.html
+==================*/
+#main #pagecontent ,#main .post .content{
+  /*font-family: normal normal 100 13.35px/21.36px Arial;*/
+  font-family: "WenQuanYi Zen Hei","Microsoft YaHei","微软雅黑",SimHei,"Calibri";
+  font-size: 13px;
+  font-weight:100;
+  line-height:16px;
+  
+}
+#main #pagecontent  strong,#main .post .content strong{
+  font-weight:800;
+}

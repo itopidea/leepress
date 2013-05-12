@@ -1,0 +1,61 @@
+{% extends 'admin/base' %}
+{%block admincontent%}
+<div id="admincontent">
+	<div id="setting">
+		<div class="wrap">
+			<h4>设置属性</h4>
+		</div>
+		<form id="settingform" class="editform">
+			<input type="button" class="lightbutton" id='update' value="设置">
+			<div class="messagefield">
+				<label for="showtagnumber">首页显示标签数</label>
+				<input type="text" name="showtagnumber" size= 30 value='{{showtagnumber}}'><br/>
+				<label for="showlinknumber">首页显示链接数</label>
+				<input type="text" name="showlinknumber" size= 30 value='{{showlinknumber}}'><br/>
+				<label for="postnumberhome">首页显示文章数</label>
+				<input type="text" name="postnumberhome" size= 30 value='{{postnumberhome}}'><br/>
+				<label for="postnumberadmin">管理显示文章数</label>
+				<input type="text" name="postnumberadmin" size= 30 value='{{postnumberadmin}}'><br/>
+				<label for="showtagsearchnumber">标签搜索页显示文章数</label>
+				<input type="text" name="showtagsearchnumber" size= 30 value='{{showtagsearchnumber}}'><br/>
+				<label for="mediainadmin">文件页显示文件数</label>
+				<input type="text" name="mediainadmin" size= 30 value='{{mediainadmin}}'><br/>
+				<label for="post_id">公告编号</label>
+				<input type="text" name="post_id" size= 30 value='{{post_id}}'><br/>
+				<label for="announcelength">公告长度</label>
+				<input type="text" name="announcelength" size= 30 value='{{announcelength}}'>
+			</div>
+			
+
+		</form>
+	</div>
+</div>
+{%endblock admincontent%}
+
+{%block script%}
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#update').click(function(){
+			// alert($('#settingform').serialize());
+			 $.ajax({
+						cache: true,
+						type: "POST",
+						url:'/admin/setting',
+						data:$('#settingform').serialize(),// 你的formid
+						async: true,
+						error: function(request) {
+							alert("Connection error");
+						},
+						success: function(data) {
+							//window.location.reload();
+							//$("#message").html("");
+							$("#message").html("<span>设置成功</span>");
+							$('#message').fadeOut(2000);
+							setTimeout("window.location.reload()",500);
+						}
+					});
+		    return false;
+		});
+	});
+</script>
+{%endblock script%}

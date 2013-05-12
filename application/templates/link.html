@@ -1,0 +1,20 @@
+{%extends 'part/base'%}
+{%block title%}
+<title>fzlee's blog--link</title>
+{%endblock title%}
+{%block main%}
+<div id="main">
+	<div id="linkshow">
+		<ul>
+			{%if showlink%}
+				{%for link in showlink%}
+				<li><a href="{{link.link}}">{{link.name}}</a>
+				</li>
+				{%endfor%}
+			{%else%}
+			There are not any links in this blog
+			{%endif%}
+		</ul>
+	</div>
+</div>
+{%endblock main%}

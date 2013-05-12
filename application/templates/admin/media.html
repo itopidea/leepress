@@ -1,0 +1,148 @@
+{% extends 'admin/base' %}
+{%block admincontent%}
+<div id="admincontent">
+
+<div class="wrap">
+	<h4>文件管理</h4>
+</div>
+<div id="upload">
+<form action="/media/upload" id="addmedia" class="editform" method="post" enctype="multipart/form-data">
+	
+	<div id="inputarea" class="messagefield">
+		<input type="button" class="lightbutton" id="new" value="上传">
+		<input type="button" class="lightbutton" id="delete" value="删除">
+		<label for="mediaFile">文件</label>
+		<input type="file" name="mediaFile" id="mediaFiles">
+		<label for="name">文件名</label>
+		<input type="text" name="mediaName" id="mediaNames">
+		<label	for="display" >允许显示</label>
+		<input type="checkbox" name="display" id="display" checked="checked"/>
+		
+	</div>
+</form>
+
+</div>
+
+<div class="wrap">
+	<h4>文件列表</h4>
+</div>
+<form class="editform" id="deleteform">
+	{%block pageindex%}
+		{%include 'part/pureindex'%}
+	{%endblock pageindex%}
+<table class="widefat" border="1">
+	<thead>
+		<tr>
+			<th class="check-column" scope="col" style="width:8%">
+			<input type="checkbox" onclick="$('input[class=page]').attr('checked',this.checked);">
+			</th>
+			<th style="width: 15%;">上传时间</th>
+			<th>文件名</th>
+			<th>大小</th>
+			<th>允许显示</th>
+		</tr>
+	</thead>
+	<tbody>
+	{%for item in medialist%}
+		<tr>
+			<th>
+				<input class="page" type="checkbox" value="on" name="{{item.blobkey}}">
+			</th>
+			<td>
+				<div class="time">{{item.create_date}}</div>
+			</td>
+			<td>
+				<a href="/media/get/{{item.blobkey}}/{{item.name}}">{{item.name}}</a>
+			</td>
+			<td>
+				<div class="size">{{item.size}}</div>
+			</td>
+			{%if item.display%}
+			<td><input type="checkbox" id='{{item.blobkey}}' class="reversedisplay" checked="on"></td>
+			{%else%}
+			<td><input type="checkbox" id='{{item.blobkey}}' class="reversedisplay"></td>
+			{%endif%}
+			
+		</tr>
+	{%endfor%}
+	</tbody>
+</table>
+</div>
+{%endblock admincontent%}
+{%block script%}
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#new').click(function(){
+			$('#addmedia').ajaxSubmit({
+				type:"post",
+				url: "/media/upload",
+				success: function(html, status) {
+					$('#message').html("<span>创建成功</span>")
+					$('#message').fadeOut(2000);
+					setTimeout("window.location.reload()",2000);
+					return false;
+				}
+			});
+			// $('#addmedia').submit();
+
+		});
+
+		$('.time').each(function(){
+			$(this).text(dateToString($(this).text(),"yyyy-MM-dd hh:mm"));
+		});
+		$('.size').each(function(){
+			$(this).text(intSizeToString(parseInt($(this).text())));
+		});
+
+
+		$("#delete").click(function(){
+			result=confirm("确定删除？");
+			//alert($('#deleteform').serialize());
+			//alert($('#deleteform').serialize());
+			if(result){
+				$.ajax({
+					cache:true,
+					type:"POST",
+					url:"/media/delete",
+					async:true,
+					data:$('#deleteform').serialize(),
+					success:function(data){
+						$('#message').html("<span>删除成功</span>")
+						$('#message').fadeOut(2000);
+						setTimeout("window.location.reload()",2000);
+					}
+				});
+			}
+		});
+		$(".indexbutton").click(function(e){
+			var url="";
+			if($(this).val()!=1){
+				url="/admin/media/"+$(this).val();
+			}
+			else{
+				url="/admin/media";
+			}
+			
+			location.href=url;
+		});
+		$('.reversedisplay').click(function(){
+			alert($(this).attr('id')+"="+$(this).attr('checked'));
+			$.ajax({
+				cache:true,
+				type:"POST",
+				url:"/media/update",
+				async:true,
+				data:$(this).attr('id')+"="+$(this).attr('checked'),
+				success:function(){
+					$('#message').html("<span>更新成功</span>");
+					$('#message').fadeOut(2000);
+					setTimeout("window.location.reload()",500);
+					
+				}
+			});
+		});
+
+
+	});
+</script>
+{%endblock script%}

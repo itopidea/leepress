@@ -1,0 +1,283 @@
+/* #Freeclassical
+================================================== */
+/*common used*/
+.spacecontent20{
+  height:20px;
+}
+.spacecontent40{
+  height:40px;
+}
+.clear{
+  clear: both;
+}
+.bottomline{
+  border-bottom: 2px solid #C8C8C8;
+  padding: 10px 0;
+}
+/* topbar
+================================================== */
+
+#topbar{
+  background: 0px 0px #D8D8D8;
+  border-bottom: 1px solid #CCCCCC;
+  box-shadow: 0px -1px 0px #BABABA;
+  height:35px;
+  position:fixed;
+  width:100%;
+  z-index:1000;
+}
+#topbar #logo{
+  float:left;
+  margin-left: 20px;
+  height:35px;
+}
+body #topbar #logo span a{
+  margin-bottom: 0px;
+  line-height: 35px;
+}
+
+
+body #topbar #logo{
+  background-image: url("/static/images/logo.png");
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+  /*z-index: 10000;*/
+  width:150px;
+}
+body #topbar #logo span{
+  font-family: "Microsoft YaHei";
+  /*font: normal normal 400 20px/35px*/
+  font-size: 20px;
+  line-height: 35px;
+  /*height: 35px;*/
+  margin-bottom: 0px;
+}
+body .post h3 {
+  font-family: "Microsoft YaHei","微软雅黑","WenQuanYi Zen Hei","Calibri";
+  /*font: normal normal 500 16px/20px;*/
+  font-size: 16px;
+  line-height: 20px;
+  /*height: 35px;*/
+  margin-bottom: 0px;
+}
+
+
+#topbar #menu{
+  float:right;
+}
+#topbar #menu li{
+  float:left;
+  padding: 10px 10px 0 10px;
+  /*margin: 7px 10px 0 10px;*/
+}
+#topbar #menu li a{
+  font-family: "Microsoft YaHei","微软雅黑","WenQuanYi Zen Hei","Calibri";
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+body #centerblock {
+  width:100%;
+
+}
+body #centerblock #content #main{
+  padding-left: 280px;
+  padding-right:40px;
+  font-family: "Microsoft YaHei","微软雅黑","WenQuanYi Zen Hei","Calibri";
+
+}
+body #centerblock #content #main h3{
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 35px;
+}
+body #centerblock #content #main .content{
+  padding:10px 0 10px 0;
+}
+body #centerblock #content #main .post{
+  padding:10px;
+}
+body #centerblock #content #main .smalltime{
+  font-size: 10px;
+  padding-left: 20px;
+}
+/* sidebar
+================================================== */
+body #centerblock #content #sidebar{
+  width:230px;
+  margin:0 15px;
+  float:left;
+}
+body #centerblock #content #sidebar h4{
+  /*font-size : 14px;*/
+  width:220px;
+  background-image: url("/static/images/sidebar_bg.jpg");
+  background-position: 0% 100%;
+  background-repeat: repeat-x;
+  /*font: normal normal 400 14px/30px "Droid Sans";*/
+  font-family:"Droid Sans";
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 30px;
+  clear: both;
+}
+body #centerblock #content #sidebar p{
+  width: 220px;
+}
+body #centerblock #content #sidebar #linkfield,
+body #centerblock #content #sidebar .tagcloud a
+{
+  /*font-family:"Arial";*/
+  /*font: normal normal 400 16px/17px Arial;*/
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 17px;
+  /*font:Arial;*/
+}
+body #centerblock #content #sidebar .announcement{
+  font: normal normal 400 12px/14px Arial;
+}
+/* page
+================================================== */
+body #main #page #pagecontent #pagebody{
+  padding: 20px 0;
+}
+/*sidebar
+========================*/
+
+#sidebar .tagcloud .tagitem{
+  background: #D8D8D8;
+  border-radius: 20px;
+  color: #333333;
+  display: inline;
+  float: left;
+  line-height: 17px;
+  margin: 0px 10px 10px 0px;
+  padding: 3px 15px;
+  white-space: nowrap;
+}
+#sidebar .tagcloud a:link, #sidebar .tagcloud a:visited { 
+  outline-width: 0px;
+  text-decoration: none;
+  transition-duration: 0.4s;
+  transition-property: all;
+}
+#sidebar .tagcloud a:focus { 
+outline: 0px none currentColor;
+}
+#sidebar .tagcloud a:hover { 
+background: #333333;
+color: #D8D8D8;
+}
+
+#sidebar #seemore{
+  font-size: 0.8em;
+  float:right;
+  padding-right: 40px;
+
+}
+
+#sidebar #linkfield a{
+	font-size:18px;
+	font-weight:500;
+	line-height:24px;
+}
+/*tag.html && tag_not_found.html
+=====================*/
+
+#main #tagnotfound {
+  background-image: url("/static/images/tag_not_found.png");
+  min-height:450px;
+  margin: 20px 0 0 0;
+  background-repeat: no-repeat;
+  background-position: center,center;
+}
+
+#main .pageindex {
+  height:35px;
+  /*position:relative;*/
+}
+
+#main .pageindex div{
+  height:100%;
+  line-height:35px;
+  float:left;
+}
+#main .pageindex ul{
+  vertical-align:middle;
+  display:table-cell;
+  float:left;
+  padding-top:5px;
+  /*position:absolute;*/
+  /*top:50%;*/
+}
+#main .pageindex ul li{
+  list-style: none;
+  height: 15px;
+  margin:0 4px;
+  float:left;
+  height: 100%;
+ 
+}
+
+#main .pageindex ul li .indexbutton{
+  padding: 2px 4px;
+  margin-bottom: 0;
+  border-radius: 3px;
+  line-height: 16px;
+  color:#333333;
+  background:  #D8D8D8;
+}
+#main .pageindex ul li .currentindexbutton{
+  padding: 2px 4px;
+  margin-bottom: 0px;
+  border-radius: 3px;
+  line-height: 16px;
+  color: #D8D8D8;
+  background:#333333;
+
+}
+
+/* home/link
+=================*/
+
+#main #linkshow{
+  padding-top: 80px;
+  padding-left: 50px;
+}
+
+/*index-not-found.html
+==================*/
+#main #indexnotfound {
+  background-image: url("/static/images/page_not_found.png");
+  min-height:450px;
+  margin: 20px 0 0 0;
+  background-repeat: no-repeat;
+  background-position: center,center;
+}
+
+
+/*page.html and post in index.html
+==================*/
+#main #pagecontent ,#main .post .content{
+  /*font-family: normal normal 100 13.35px/21.36px Arial;*/
+  font-family: "WenQuanYi Zen Hei",SimHei,"Microsoft YaHei","微软雅黑","Calibri";
+  font-size: 13px;
+  font-weight:100;
+  line-height:16px;
+  
+}
+#main #pagecontent  strong,#main .post .content strong{
+  font-weight:800;
+}
+#main #pagecontent  a{
+  color:#2583AD;
+}
+#main #pagecontent a:hover{
+  color:#333333;
+}
+/*never show any color in inedx.html*/
+#main .post .content a{
+  color:#333333;
+}

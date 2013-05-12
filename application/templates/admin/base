@@ -1,0 +1,26 @@
+{%extends 'part/base'%}
+{%block css%}
+<link rel="stylesheet" type="text/css" href="/static/css/admin.css">
+{%endblock css%}
+{%block content%}
+<div id="main">
+	<div id="nav" class="bottomline">
+		<ul>
+			<li class="suboption"><a href="/admin/post">写文章</a></li>
+			<li class="suboption"><a href="/admin/page">文章</a></li>
+			<li class="suboption"><a href="/admin/setting">设置</a></li>
+			<li class="suboption"><a href="/admin/link">链接</a></li>
+			<li class="suboption"><a href="/admin/media">文件</a></li>
+			<li class="suboption"><a href="">评论</a></li>	
+		</ul>
+		<div class="clear"></div>
+	</div>
+	{%block admincontent%}
+	<div id="admincontent"></div>
+	{%endblock admincontent%}
+</div>		
+{%endblock content%}
+
+{%block footbar%}
+{%endblock footbar%}
+

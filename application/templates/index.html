@@ -1,0 +1,55 @@
+{%extends 'part/base'%}
+{%block title%}
+{%if currentpage==1 %}
+<title>fzlee's blog--home</title>
+{%else%}
+<title>fzlee's blog--page{{currentpage}}</title>
+{%endif%}
+{%endblock title%}
+{%block main%}
+<div id="main">
+	<div class="spacecontent20"></div>
+
+	{%for item in postlist%}
+	<div class="post">
+		<h3><a href="/post/{{item.post_id}}">{{item.title}}</a></h3>
+		<span class="smalltime">{{item.create_date}}</span>
+		<div class="content">{{item.content|striptags|truncate(length=200, killwords=True, end='.......')}}</div>
+		<div class="tagcloud">
+			{%for tag in item.tags%}
+			<a class="tagitem" href="/tag/{{tag}}">{{tag}}</a>
+			{%endfor%}
+		</div>
+	</div>
+	
+	{%endfor%}
+	{%block pageindex%}
+		{%include 'part/pageindex'%}
+	{%endblock%}
+</div>
+{%endblock main%}
+{%block script%}
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.smalltime').each(function(){
+			$(this).text(dateToString($(this).text(),"yyyy-MM-dd hh:mm"));
+		});
+		//button event
+		$(".indexbutton").click(function(e){
+			var url="";
+			if($(this).val()!=1){
+				url='/'+$(this).val();
+			}
+			else{
+				url='/';
+			}
+			location.href=url;
+		});
+		$(".indexbutton").click(function(e){
+			return false;
+		});
+
+	});
+</script>
+
+{%endblock script%}

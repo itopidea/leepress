@@ -1,0 +1,133 @@
+{% extends 'admin/base' %}
+{%block admincontent%}
+<div id="admincontent">
+<div class="wrap">
+	<h4>链接管理</h4>
+</div>
+<form id="addlink" class="editform">
+	<div id="inputarea" class="messagefield">
+		<input type="button" class="lightbutton" id="delete" value="删除">
+		<input type="button" class="lightbutton"id="new" value="添加">	
+		<label for="name">名字</label>
+		<input type="text" size="15" name="name" id="name">
+		<label for="link">位置</label>
+		<input type="text" size="30" name="link" id="link">
+		<label for="description">描述</label>
+		<input type="text" size="30" name="description" id="description">
+		<label for="display">显示</label>
+		<input type="checkbox" name="display" id="display" checked="on">
+	</div>
+</form>
+<div class="wrap">
+	<h4>链接列表</h4>
+</div>
+<form id="deleteform" class="editform">
+	<table class="widefat" border="1">
+		<thead>
+			<tr>
+				<th class="check-column" scope="col" style="wdth:8%">
+				<input type="checkbox" onclick="$('input[class=link]').attr('checked',this.checked);">
+				</th>
+				<th style="width: 15%;">日期</th>
+				<th>链接</th>
+				<th>描述</th>
+				<th>显示</th>
+			</tr>
+		</thead>
+		<tbody>
+		{%for item in link%}
+			<tr>
+				<th>
+					<input class="link" type="checkbox" value="on" name="{{item.link_id}}">
+				</th>
+				<td>
+					<div class="time">{{item.create_date}}</div>
+				</td>
+				<td>
+					<a href="{{item.link}}">{{item.name}}</a>
+				</td>
+				<td>{{item.description}}</td>
+				{%if item.display%}
+					<td><input type="checkbox" id='{{item.link_id}}' class="reversedisplay" checked="on"></td>
+				{%else%}
+					<td><input type="checkbox" id='{{item.link_id}}' class="reversedisplay"></td>
+				{%endif%}
+				
+				
+			</tr>
+		{%endfor%}
+
+		</tbody>
+	</table>
+</form>
+{%endblock admincontent%}
+
+{%block script%}
+<script type="text/javascript">
+$(document).ready(function(){
+	$('.time').each(function(){
+		$(this).text(dateToString($(this).text(),"yyyy-MM-dd hh:mm"));
+	});
+
+	$('#new').click(function(){
+		if($('#name').val()==""||$('#link').val()==""){
+			alert("请输入链接名字以及链接地址");
+			return false;
+		}
+
+		else{
+			$.ajax({
+					cache:true,
+					type:"POST",
+					url:"/link/add",
+					async:true,
+					data:$('#addlink').serialize(),
+					success:function(data){
+						$('#message').html("<span>创建成功</span>")
+						$('#message').fadeOut(2000);
+						setTimeout(function(){window.location.reload();}, 2000 );
+					},
+					error:function (XMLHttpRequest, textStatus, errorThrown) {
+						$('#message').html("<span>创建失败</span>");
+					}
+				});
+		}
+		return false;
+	});
+	$('#delete').click(function(){
+		//alert($('#deleteform').serialize());
+		$.ajax({
+			cache:true,
+			type:"POST",
+			url:"/link/delete",
+			async:true,
+			data:$('#deleteform').serialize(),
+			success:function(){
+				$('#message').html("<span>删除成功</span>");
+				$('#message').fadeOut(2000);
+				setTimeout(function(){window.location.reload();}, 500 );
+			}
+		});
+		return false;
+	});
+	$('.reversedisplay').click(function(){
+		alert($(this).attr('id')+"="+$(this).attr('checked'));
+		$.ajax({
+			cache:true,
+			type:"POST",
+			url:"/link/update",
+			async:true,
+			data:$(this).attr('id')+"="+$(this).attr('checked'),
+			success:function(){
+				$('#message').html("<span>更新成功</span>");
+				$('#message').fadeOut(2000);
+			}
+		});
+	});
+
+
+
+
+});
+</script>
+{%endblock script%}

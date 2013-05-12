@@ -1,0 +1,97 @@
+/* admin view */
+/*nav
+================================================== */
+body{
+	background:#121417 !important;
+	color: #FFFFFF !important;
+}
+#topbar{
+	background-color:333333!important;
+}
+
+#centerblock #main #nav ul{
+	background: #000000;
+	margin-bottom: 0px;
+
+}
+#centerblock #main #nav li{
+	float:left;
+	padding:0 10px;
+	margin-bottom: 8px;
+}
+/*admincontent
+================================================== */
+#centerblock #main #admincontent .basebox{
+	/*background: #C8C8C8;*/
+	width:95%;
+	padding-bottom: 10px;
+	padding-left: 20px;
+}
+#centerblock #main #admincontent .basebox h3{
+	margin: 10px 0 0px 0;
+}
+
+.endline{
+	background-image: linear-gradient(1deg, transparent, rgba(0, 0, 0, 0.196), transparent);
+	border: medium none currentColor;
+	height: 1px;
+	margin-top: 15px;
+}
+
+#admincontent #left{
+	/*float:left;*/
+	padding-right: 360px;
+}
+#admincontent #right{
+	padding-top: 20px;
+	width:350px;
+	float:right;
+}
+/*admin maincontent
+================================================== */
+
+#centerblock table{
+	width: 95%;
+	margin:0px 15px; 
+}
+#centerblock .widefat table, th,td{
+	
+	/*border: 1px solid ;*/
+	text-align: center;
+	border: 2px solid #333333;
+} 
+#centerblock .editform [type='input']{
+	margin: 10px 20px;
+
+}
+
+/*link.html
+==========================*/
+/*setting
+===================*/
+#admincontent .lightbutton{
+	clear:both;
+	margin: 10px;
+}
+
+#admincontent .messagefield label{
+	padding-left: 30px;
+}
+
+body h4{
+	color:#FFFFFF;
+}
+
+body #main #admincontent .wrap h4{
+  font-size : 20px;
+  padding-left: 50px;
+  padding-top: 20px;
+  color:#FFFFFF !important;
+  margin-bottom:10px;
+  /*width:270px;*/
+  background-image: url("/static/images/sidebar_bg.jpg");
+  background-position: 0% 100%;
+  background-repeat: repeat-x;
+  font-family:"Droid Sans";
+  clear: both;
+}

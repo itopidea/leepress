@@ -1,0 +1,95 @@
+{% extends 'admin/base' %}
+{%block admincontent%}
+<div id="admincontent">
+<div class="wrap">
+	<h4>文章列表</h4>
+</div>
+<form class="editform" id="deleteform">
+	<input type="button" class="lightbutton" id="delete" value="删除">
+	{%block pageindex%}
+		{%include 'part/pureindex'%}
+	{%endblock pageindex%}
+<table class="widefat" border="1">
+	<thead>
+		<tr>
+			<th class="check-column" scope="col" style="wdth:8%">
+			<input type="checkbox" onclick="$('input[class=page]').attr('checked',this.checked);">
+			</th>
+			<th style="width: 15%;">日期</th>
+			<th>标题</th>
+			<th>作者</th>
+			<th class="num" scope="col">
+			<div class="vers">
+				<img src="/static/images/comment-grey-bubble.png" alt="Comments">
+			</div>
+			</th>
+			<th>状态</th>
+			<th>允许评论</th>
+		</tr>
+	</thead>
+	<tbody>
+	{%for item in postlist%}
+		<tr>
+			<th>
+				<input class="page" type="checkbox" value="on" name="{{item.post_id}}">
+			</th>
+			<td>
+				<div class="time">{{item.create_date}}</div>
+			</td>
+			<td>
+				<a href="/admin/post/{{item.post_id}}">[编辑]</a><a href="/post/{{item.post_id}}">{{item.title}}</a>
+			</td>
+			<td>fzlee</td>
+			<td>{{item.num_lookup}}</td>
+			{%if item.saveonly%}<td>仅保存</td>
+			{%else%}<td>发布</td>{%endif%}
+
+			{%if item.allowcomment%}<td>yes</td>
+			{%else%}<td>no</td>{%endif%}
+			
+		</tr>
+	{%endfor%}
+
+	</tbody>
+</table>
+</form>
+
+</div>
+{%endblock admincontent%}
+{%block script%}
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.time').each(function(){
+			$(this).text(dateToString($(this).text(),"yyyy-MM-dd hh:mm"));
+		});
+		$("#delete").click(function(){
+			result=confirm("确定删除？");
+			//alert($('#deleteform').serialize());
+			if(result){
+				$.ajax({
+					cache:true,
+					type:"POST",
+					url:"/post/delete",
+					async:false,
+					data:$('#deleteform').serialize(),
+					success:function(data){
+
+						window.location.reload()
+					}
+				});
+			}
+		});
+		$(".indexbutton").click(function(e){
+			var url="";
+			if($(this).val()!=1){
+				url="/admin/page/"+$(this).val();
+			}
+			else{
+				url="/admin/page";
+			}
+			
+			location.href=url;
+		});
+	});
+</script>
+{%endblock script%}

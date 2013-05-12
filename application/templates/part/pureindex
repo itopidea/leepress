@@ -1,0 +1,19 @@
+{%block pureindex%}
+	<div class="pageindex">	
+	{%if pagecount!=1 and pagecount!=0%}
+			<div>Page {{currentpage}} of {{pagecount}} :&nbsp;&nbsp;&nbsp;&nbsp;</div>
+	{%endif%}
+		<ul>
+			{%if pagecount!=1 and pagecount!=0%}
+				{%for index in range(1,pagecount+1)%}
+					{%if currentpage==index%}
+					<li><input type="button" class="currentindexbutton lightbutton" value="{{index}}"></li>
+					{%else%}
+					<li><input type="button" class="indexbutton lightbutton" value="{{index}}"><a href="/{{index}}"></a></li>
+					{%endif%}
+				{%endfor%}
+			{%endif%}
+		</ul>
+	</div>
+
+{%endblock pureindex%}

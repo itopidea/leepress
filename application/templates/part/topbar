@@ -1,0 +1,31 @@
+<div id="topbar" >
+	<a href="/">
+		<div id="logo">
+			<span>
+				<!-- <a href="/" >FZLEE'S BLOG</a> -->
+			</span>
+				
+		</div>
+	</a>
+	<div id="message"></div>
+	
+	<div id="menu">
+		<ul>
+			{%if session.user%}
+			{%set taglist= session.topbar%}
+			{%for tag in taglist%}
+				<li>
+					<a href="{{tag[1]}}">{{tag[0]}}</a>
+				</li>
+			{%endfor%}
+			{%else%}
+				<li>
+					Welcome my guest, you can <a href="/login">Login</a>
+				</li>
+			{%endif%}
+			
+
+		</ul>
+	</div>
+
+</div>
