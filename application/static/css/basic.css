@@ -284,7 +284,7 @@ body #centerblock #content #main{
   padding-left: 280px;
   padding-right:40px;
   min-width: 500px;
-  max-width:960px;
+  /*max-width:960px;*/
   font-family: "Microsoft YaHei","微软雅黑","WenQuanYi Zen Hei","Calibri";
 
 }

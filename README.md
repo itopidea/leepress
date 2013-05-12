@@ -1,4 +1,4 @@
-this is a python based blog created by flask.
+It's is a python based blog created by flask.
 
 thanks to flask and  flask-appengine-template
 
