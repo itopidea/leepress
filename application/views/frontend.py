@@ -75,6 +75,7 @@ def logout():
 
 @frontend.route('/loggedin')
 def loggedin():
+	session.permanent=True
 	session['user']=users.get_current_user()
 	if session['user'].email()==settings.BLOGUSERMAIL:
 		session['topbar']=settings.ADMIN_TAG

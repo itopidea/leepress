@@ -14,8 +14,6 @@ import sys
 reload(sys) 
 sys.setdefaultencoding('utf8')
 
-session.permanent=True
-
 from models import Tag,Link,SPost,User
 import views,settings
 
