@@ -7,12 +7,15 @@
 
 configuration before you run flask
 """
-from flask import Flask,g,request,render_template,jsonify
+from flask import Flask,g,request,render_template,jsonify,session
 from google.appengine.api import users
 
 import sys 
 reload(sys) 
 sys.setdefaultencoding('utf8')
+
+session.permanent=True
+
 from models import Tag,Link,SPost,User
 import views,settings
 
