@@ -9,13 +9,10 @@
 import datetime,logging
 import os,json
 from flask import Blueprint, Response, request, flash, jsonify, g, current_app,\
-	abort, redirect, url_for, session, send_file, send_from_directory
-from application.helpers import render_template 
+	abort, redirect, url_for, session, send_file, send_from_directory, render_template 
 from application.extensions import db
 from application.models import User, SPost, Tag,Post
 from google.appengine.api import users
-from google.appengine.api import search
-
 from application import settings 
 import urllib
 

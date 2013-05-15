@@ -12,6 +12,8 @@ from google.appengine.api import files
 from application import settings
 import becer
 
+from google.appengine.api import memcache
+
 class User(db.Model):
 	postnumberhome=db.IntegerProperty()
 	postnumberadmin=db.IntegerProperty()
@@ -259,31 +261,14 @@ class Tag(db.Model):
 				else :
 					tag.delete()
 	
-
-
-class Image(db.Model):
-	blob = db.BlobProperty()
-	name=db.StringProperty()
-	mimetype=db.StringProperty()
-
-	def save(self,img,name,mimetype):
-		self.blob=db.Blob(img.read())
-		self.mimetype=mimetype
-		key=self.put()
-		self.name=str(key)+name
-		self.put()
-		return self.name
-
-
-#class Comment(db.Model):
-#	PER_PAGE=40
-#	post_id=db.IntegerProperty()
-#	email=db.StringProperty()
-#	nickname=db.StringProperty()
-#	website=db.StringProperty()
-#	comment=db.StringProperty()
-#	create_date=db.IntegerProperty()
-#	ip=db.IntegerProperty()
+class Comment(db.Model):
+	PER_PAGE=40
+	post_id=db.IntegerProperty()
+	email=db.StringProperty()
+	nickname=db.StringProperty()
+	comment=db.StringProperty()
+	create_date=db.IntegerProperty()
+	ip=db.IntegerProperty()
 
 class Link(db.Model):
 	name=db.StringProperty()

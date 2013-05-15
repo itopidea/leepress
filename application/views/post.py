@@ -14,10 +14,9 @@ import urllib
 from werkzeug.datastructures import Headers
 from google.appengine.ext import blobstore
 from flask import Blueprint, Response, request, flash, jsonify, g, current_app, \
-	abort, redirect, url_for, session,send_file
+	abort, redirect, url_for, session,send_file,render_template
 
 from application.decorators import admin_required
-from application.helpers import render_template
 from application.extensions import db
 from application.models import User, SPost,Tag
 

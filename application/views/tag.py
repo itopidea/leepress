@@ -7,10 +7,9 @@
 """
 
 from flask import Blueprint, Response, request, flash, jsonify, g, current_app,\
-	abort, redirect, url_for, session, send_file, send_from_directory
+	abort, redirect, url_for, session, send_file, send_from_directory,render_template
 
 from application.models import Tag,SPost,User
-from application.helpers import render_template 
 
 tag = Blueprint('tag',__name__,template_folder="../templates")
 

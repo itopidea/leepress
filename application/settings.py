@@ -36,9 +36,6 @@ CACHE_DEFAULT_TIMEOUT = 300
 
 #THEME = 'default'
 #THEME_PATHS=os.path.join(os.path.abspath('.'),'application/themes')
-
-USE_LOCAL_COMMENT = True # if false, to include comment.html
-
 ACCEPT_LANGUAGES = ['en', 'zh']
 
 BABEL_DEFAULT_LOCALE = 'zh'

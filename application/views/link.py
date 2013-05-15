@@ -7,10 +7,9 @@
 """
 
 from flask import Blueprint, Response, request, flash, jsonify, g, current_app,\
-	abort, redirect, url_for, session
+	abort, redirect, url_for, session,render_template
 import json
 import time
-from application.helpers import render_template
 from application.extensions import db
 
 from application.models import Link
