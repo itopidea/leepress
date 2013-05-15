@@ -53,6 +53,7 @@ def index(page=1):
 	if SPost.PostCount%User.PER_PAGE_IN_HOME==0:
 		pagecount=pagecount-1
 	currentpage=page
+
 	if postlist or page==1:
 		return render_template("index.html",
 							postlist=postlist,

@@ -25,7 +25,8 @@ MODULES=((views.frontend, ""),
     (views.admin,'/admin'),
 	(views.tag,'/tag'),
 	(views.media,'/media'),
-	(views.search,'/search')
+	(views.search,'/search'),
+	(views.comment,'/comment')
 )
 
 def createapp():

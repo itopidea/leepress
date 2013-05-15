@@ -262,13 +262,35 @@ class Tag(db.Model):
 					tag.delete()
 	
 class Comment(db.Model):
-	PER_PAGE=40
+	comment_id=db.IntegerProperty()
 	post_id=db.IntegerProperty()
 	email=db.StringProperty()
 	nickname=db.StringProperty()
 	comment=db.StringProperty()
 	create_date=db.IntegerProperty()
-	ip=db.IntegerProperty()
+	ip=db.StringProperty()
+
+	RECENTCOMMENT=""
+
+	@classmethod
+	def properid(cls):
+		comment=Comment.all().order('-comment_id').get()
+		comment_id=comment.comment_id+1 if comment else 1
+		return comment_id
+
+	@classmethod
+	def updatecache(cls):
+		pass
+
+	def getjsonobj(self):
+		return {"comment_id":self.comment_id,
+						"post_id":self.post_id,
+						"email":self.email,
+						"nickname":self.nickname,
+						"comment":self.comment,
+						"create_date":self.create_date,
+						"ip":self.ip
+						}
 
 class Link(db.Model):
 	name=db.StringProperty()

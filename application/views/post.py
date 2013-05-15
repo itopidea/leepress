@@ -8,7 +8,7 @@
 
 import time
 import mimetypes
-import os
+import os,logging
 import json as json
 import urllib
 from werkzeug.datastructures import Headers
@@ -18,7 +18,7 @@ from flask import Blueprint, Response, request, flash, jsonify, g, current_app, 
 
 from application.decorators import admin_required
 from application.extensions import db
-from application.models import User, SPost,Tag
+from application.models import User, SPost,Tag,Comment
 
 post = Blueprint('post',__name__,template_folder="../templates")
 
@@ -26,9 +26,9 @@ post = Blueprint('post',__name__,template_folder="../templates")
 @post.route("/<int:post_id>", methods=("GET","POST"))
 def submit(post_id):
 	post=SPost.all().filter('post_id',post_id).get()
+	comments=Comment.all().filter('post_id',post_id).order('-create_date').fetch(1000)
 
-	
-	return render_template('page.html',post=post)
+	return render_template('page.html',post=post,comments=comments)
 	# return render_template()
 
 @post.route("/newpost",methods=['POST'])

@@ -26,8 +26,8 @@ def admin_required(func):
 	return decorated_view
 
 def login_required(func):
-	@wrap(func)
-	def decorate_view(*args,**kargs):
+	@wraps(func)
+	def decorated_view(*args,**kargs):
 		if 'user' in session:
 			return func(*args,**kargs)
 		else :

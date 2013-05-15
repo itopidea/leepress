@@ -24,11 +24,25 @@
                     <a class="tagitem" href="/tag/{{tag}}">{{tag}}</a>
                 {%endfor%}
                  </div><div class="clear spacecontent20"></div>
-                Operation:<a href="/admin/post/{{post.post_id}}">Edit</a>
+                Operation:&nbsp;<a href="/admin/post/{{post.post_id}}">编辑</a>,<a class="gotocomment">回复</a>
 				<div class="spacecontent20"></div>
 			</div>
 		</div>
 	</div>
+    {%if comments%}
+    <div id="comment" class="post">
+        <h4>COMMENTS</h4>
+        {%for comment in comments%}
+            <div class="onecomment">
+                <p><strong>{{comment.nickname}}</strong> 在 <span class="smalltime">{{comment.create_date}}</span>:</p>
+                {{comment.comment}}  
+            </div>
+        {%endfor%}
+    {%endif%}
+
+
+
+    </div>
 </div>
 <div class="spacecontent40"></div>
 {%endblock main%}
@@ -41,20 +55,10 @@
 	<script type="text/javascript" src="/static/js/syntaxhighlighter/shAutoloader.js"></script>
     <script type="text/javascript" src="/static/js/jquery.autoIMG.js"></script>
     <script type="text/javascript" src="/static/js/lightbox.js"></script>
+    <script type="text/javascript" src="/static/js/tinymce/tiny_mce.js"></script>
 
 <script type="text/javascript">
 
-function resizeImg(obj) { 
-    var obj = document.getElementById(obj); 
-    var objContent = obj.innerHTML;
-    var imgs = obj.getElementsByTagName('img'); 
-    if(imgs==null) return; 
-    for(var i=0; i<imgs.length; i++) { 
-        if(imgs[i].width>parseInt(obj.style.width)) { 
-            imgs[i].width = parseInt(obj.style.width);
-        } 
-    } 
-}
 function path()
 {
     var args = arguments,
@@ -107,13 +111,90 @@ $(document).ready(function(){
             }
         }
     });
-    //auto resize
-    
+    //add comment
+    $(".gotocomment").each(function(){
+        $(this).click(function(){
+            if($('#makecomment').length==0){
+                var makecomment=$('<div id="makecomment" class="post"></div>');
+                var title=$('<h4>LEAVE A COMMENT</h4>')
+                var button=$('<input type="button" id="commentbutton" style="width:40px;height:30px;padding:0;margin:0;" class="darkbutton" value="GO">')
+                var textfield=$('<textarea id="commenttextarea" rows="4" style="width:100%; background:#000000; border:0;border-radius:3px;color:#999999"></textarea>');
+                makecomment.append(title);
+                makecomment.append(button);
+                makecomment.append($('<br><br>'));
+                makecomment.append(textfield);
+                $('#main').append(makecomment);
+                //bind functions
+                $('#commentbutton').click(function(){
+                    alert($('#commenttextarea').val());
+                    var url="/comment/"+$('#post_id').val();
+                    $.ajax({
+                        cache:true,
+                        type:"POST",
+                        url:url,
+                        data:$('#commenttextarea').val(),
+                        contentType:"text/plain",
+                        async:true,
+                        error:function(){
+                            alert("connection error");
+                        },
+                        success:function(data){
+                            var result=JSON.parse(data);
+                            if (result.status==0){
+                                alert(result.message);
+                            }
+                            else{
+                                freshComment();
+                            }
+                        }
+                    });
+                });
+            }
+        return false;
+        });
+    });
+    //get comment
+    function getcomment(){
+        
+
+    }
+    //fresh comment
+    function freshComment(){
+        $('#comment').empty();
+        var h4=$('<h4>COMMENTS</h4>');
+        $('#comment').append(h4);
+        var url="/comment/get/"+$('#post_id').val();
+        $.ajax({
+            async:true,
+            url:url,
+            success:function(data){
+                alert(data);
+                result=JSON.parse(data);
+                for(var i=0;i<result.length;i++){
+                    var tmp="<div class='onecomment'><p><strong>";
+                    tmp+=result[i].nickname+"</strong>"+" 在 ";
+                    tmp+="<span class=smalltime>"+dateToString(result[i].create_date,"yyyy-MM-dd hh:mm")+'</span>:</p>';
+                    tmp+=result[i].comment+"</div>";
+                    $('#comment').append(tmp);
+                }
+
+            },
+            error:function(){
+                alert('connection error');
+                
+
+            }
+        });
+
+    }
+
+
     //add lightbox
     $('#page img').each(function (i){
         var strA ="<a rel='lightbox[roadtrip]' href='" + this.src + "'></a>";
         $(this).wrapAll(strA);
     });
+    //resize image
     $('#pagecontent').autoIMG();
 });
 

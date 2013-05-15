@@ -9,3 +9,4 @@ from .admin import adminor as admin
 from .tag import tag
 from .media import media
 from .search import search
+from .comment import comment
