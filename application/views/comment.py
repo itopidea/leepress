@@ -1,0 +1,43 @@
+#!/usr/bin/env python
+#coding:utf-8
+"""
+	comment.py
+	~~~~~~~~~~~~~
+	:license: BSD, see LICENSE for more details.
+"""
+
+from flask import Blueprint,render_template,g,request,session
+from application.models import SPost,Tag,User,Link,Media,Comment
+from application.decorators import admin_required,login_required
+import json,time,logging
+
+comment=Blueprint('/comment',__name__,template_folder="../templates")
+
+#@login_required
+@comment.route('/<int:post_id>',methods=['POST'])
+def leavecomment(post_id=0):
+	if 'user' not in session:
+		status=0
+		message="please login first"
+	else:
+		logging.info('xxxxxxxxxxxxxxxx')
+		logging.info(request.data)
+		comment=Comment(post_id=post_id,
+					email=session['user'].email(),
+					nickname=session['user'].nickname(),
+					comment=request.data,
+					create_date=int(time.time()),
+					ip=str(request.remote_addr)
+					)
+		comment.comment_id=Comment.properid()
+		comment.put()	
+		status=1
+		message=""
+	return json.dumps({"status":status,"message":message})
+
+@comment.route('/get/<int:post_id>')
+def getcomment(post_id=0):
+	comments=Comment.all().filter('post_id',post_id).order('-create_date').fetch(1000)
+	comments=[i.getjsonobj() for i in comments]
+	logging.info(comments)
+	return json.dumps(comments)
