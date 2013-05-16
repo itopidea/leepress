@@ -85,7 +85,6 @@ def updatepost():
 	return "no such key exsits"
 
 @post.route('/get/<int:post_id>')
-@cached(time=60*60)
 def getpost(post_id):
 	'''
 	if there is no such post return post_id=-1 
