@@ -10,16 +10,17 @@ from flask import Blueprint, Response, request, flash, jsonify, g, current_app,\
 	abort, redirect, url_for, session, send_file, send_from_directory,render_template
 
 from application.models import Tag,SPost,User
+import urllib
 
 tag = Blueprint('tag',__name__,template_folder="../templates")
 
+@tag.route('')
 @tag.route('/')
-@tag.route('/<tagname>')
-@tag.route('/<tagname>/<int:page>')
-def searchtagname(tagname=None,page=1):
-	if tagname==None:
+@tag.route('/<int:page>')
+def searchtagname(page=1):
+	if 'tagname' not in request.args:
 		return render_template('tag.html',allposst=[],pagecount=0,currentpage=1,tagname="")
-
+	tagname=urllib.unquote(request.args['tagname']).decode('utf-8')
 
 	allpost=SPost.all().filter('saveonly',False)
 	tagnamelist=tagname.split(',')

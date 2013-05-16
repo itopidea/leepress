@@ -14,16 +14,17 @@ import json
 search=Blueprint('search',__name__,template_folder="../templates")
 
 
+@search.route('')
 @search.route('/')
-@search.route('/<searchtag>')
-def dosearch(searchtag=None):
+@search.route('/<int:page>')
+def dosearch(page=1):
 	'''
 	you can use 'and' operation here ,like a && b 
 	'or' operation is not supported since it's of no use for me
 	'''
-	if searchtag==None:
+	if 'search' not in request.args:
 		return render_template('search.html',searchtag="",pagecount=0)
-
+	searchtag=request.args['search']
 	searchlist=[]
 	if '&&' in searchtag:
 		searchlist=searchtag.split('&&')

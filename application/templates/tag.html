@@ -18,7 +18,7 @@
 				<div class="content">{{item.content|striptags|truncate(length=200, killwords=True, end='.......')}}</div>
 				<div class="tagcloud">
 					{%for tag in item.tags%}
-					<a class="tagitem" href="/tag/{{tag}}">{{tag}}</a>
+					<a class="tagitem">{{tag}}</a>
 					{%endfor%}
 				</div>
 			</div>
@@ -39,7 +39,12 @@
 		});
 		//bind listener
 		$("#searchbutton").click(function(){
-			var url= '/tag/'+$('#inputcontent').val();
+			var tagname=$('#inputcontent').val().replace(/(^\s*)|(\s*$)/g, "");
+			if (tagname.length==0){
+				return false;
+			}  
+			tagname=encodeURIComponent(tagname);
+			var url= '/tag/?tagname='+tagname;
 			//alert("hello");
 			location.href=url;
 		});
@@ -50,8 +55,6 @@
 		});
 
 	});
-
-	
 </script>
 
 {%endblock script%}

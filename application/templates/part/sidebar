@@ -6,9 +6,20 @@ $(document).ready(function(){
         }
     });
     $("#sidebarsearchbutton").click(function(e){
-        var url= '/search/'+$('#sidebarcontentsearch').val();
+        var search=$('#sidebarcontentsearch').val().replace(/(^\s*)|(\s*$)/g, "");
+        if (search.length==0){
+                return false;
+        }
+        var url= '/search/?search='+encodeURIComponent(search);
+
         location.href=url;
     });
+    $('.tagitem').each(function(){
+        var url='/tag/?tagname=';
+        url+=encodeURIComponent($(this).text());
+        $(this).attr('href',url);
+    });
+
 });
 
 </script>
@@ -34,7 +45,7 @@ $(document).ready(function(){
         <h4>TAGS</h4>
         <div class="tagcloud">
         {%for item in g.tag%}
-            <div ><a class="tagitem" href="/tag/{{item.name}}">{{item.name}}</a></div>
+            <div ><a class="tagitem" href="/tag?tagname={{item.name}}">{{item.name}}</a></div>
         {%endfor%}
         </div>
 

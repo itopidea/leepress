@@ -18,7 +18,7 @@
 				<div class="content">{{item.content|striptags|truncate(length=200, killwords=True, end='.......')}}</div>
 				<div class="tagcloud">
 				{%for tag in item.tags%}
-				<a class="tagitem" href="/tag/{{tag}}">{{tag}}</a>
+				<a class="tagitem">{{tag}}</a>
 				{%endfor%}
 				</div>
 
@@ -41,7 +41,11 @@
 		});
 		//bind listener
 		$("#searchbutton").click(function(){
-			var url= '/search/'+$('#inputcontent').val();
+			var search=$('#inputcontent').val().replace(/(^\s*)|(\s*$)/g, "");
+			if (search.length==0){
+				return false;
+			}
+			var url= '/search/?search='+encodeURIComponent(search);
 			//alert("hello");
 			location.href=url;
 		});
