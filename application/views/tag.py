@@ -14,10 +14,10 @@ import urllib
 
 tag = Blueprint('tag',__name__,template_folder="../templates")
 
-@cached(time=60*60)
 @tag.route('')
 @tag.route('/')
 @tag.route('/<int:page>')
+@cached(time=60*60)
 def searchtagname(page=1):
 	if 'tagname' not in request.args:
 		return render_template('tag.html',allposst=[],pagecount=0,currentpage=1,tagname="")

@@ -45,9 +45,9 @@ frontend = Blueprint('frontend',__name__,template_folder="../templates")
 #		newpost.put()
 #	return "yes"
 
-@cached(time=30*60)
 @frontend.route('/')
 @frontend.route("/<int:page>")
+@cached(time=30*60)
 def index(page=1):
 	postlist=SPost.get(False,User.PER_PAGE_IN_HOME,page);
 	pagecount=SPost.PostCount/User.PER_PAGE_IN_HOME+1

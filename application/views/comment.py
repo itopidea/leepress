@@ -44,8 +44,8 @@ def leavecomment(post_id=0):
 	return json.dumps({"status":status,"message":message})
 
 
-@cached(time=30*60)
 @comment.route('/get/<int:post_id>')
+@cached(time=30*60)
 def getcomment(post_id=0):
 	comments=Comment.all().filter('post_id',post_id).order('-create_date').fetch(1000)
 	comments=[i.getjsonobj() for i in comments]

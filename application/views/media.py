@@ -34,8 +34,8 @@ def uploadmedia():
 	Media.updatecache()
 	return json.dumps({'serverImagePath':'/media/get/'+str(media.blobkey)+'/'+media.name})
 
-@cached(time=24*60*60)
 @media.route('/get/<media_id>/<fpname>')
+@cached(time=24*60*60)
 def getmedia(media_id,fpname):
 	media=Media.getmediainfo(media_id)
 	if not media or media.name!=fpname:

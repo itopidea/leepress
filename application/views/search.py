@@ -15,10 +15,10 @@ import json
 search=Blueprint('search',__name__,template_folder="../templates")
 
 
-@cached(time=60*60)
 @search.route('')
 @search.route('/')
 @search.route('/<int:page>')
+@cached(time=60*60)
 def dosearch(page=1):
 	'''
 	you can use 'and' operation here ,like a && b 

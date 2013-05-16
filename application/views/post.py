@@ -23,9 +23,9 @@ from application.decorators import cached
 
 post = Blueprint('post',__name__,template_folder="../templates")
 
-
 @post.route("/<int:post_id>", methods=("GET","POST"))
-def submit(post_id):
+@cached(time=60*60)
+def getfullpost(post_id):
 	post=SPost.all().filter('post_id',post_id).get()
 	if post:
 		comments=Comment.all().filter('post_id',post_id).order('-create_date').fetch(1000)
@@ -84,8 +84,8 @@ def updatepost():
 		return json.dumps({'message':'success','post_id':form['post_id']})
 	return "no such key exsits"
 
-@cached(time=30*60)
 @post.route('/get/<int:post_id>')
+@cached(time=60*60)
 def getpost(post_id):
 	'''
 	if there is no such post return post_id=-1 
