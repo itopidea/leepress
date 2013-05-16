@@ -10,6 +10,7 @@ from flask import Blueprint,render_template,g,request,session
 from application.models import SPost,Tag,User,Link,Media,Comment
 from application.decorators import admin_required,login_required
 import json,time,logging,urllib
+from application.decorators import cached
 
 comment=Blueprint('/comment',__name__,template_folder="../templates")
 
@@ -42,6 +43,8 @@ def leavecomment(post_id=0):
 	Comment.updatecache()
 	return json.dumps({"status":status,"message":message})
 
+
+@cached(time=30*60)
 @comment.route('/get/<int:post_id>')
 def getcomment(post_id=0):
 	comments=Comment.all().filter('post_id',post_id).order('-create_date').fetch(1000)

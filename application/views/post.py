@@ -19,6 +19,7 @@ from flask import Blueprint, Response, request, flash, jsonify, g, current_app, 
 from application.decorators import admin_required
 from application.extensions import db
 from application.models import User, SPost,Tag,Comment
+from application.decorators import cached
 
 post = Blueprint('post',__name__,template_folder="../templates")
 
@@ -83,6 +84,7 @@ def updatepost():
 		return json.dumps({'message':'success','post_id':form['post_id']})
 	return "no such key exsits"
 
+@cached(time=30*60)
 @post.route('/get/<int:post_id>')
 def getpost(post_id):
 	'''

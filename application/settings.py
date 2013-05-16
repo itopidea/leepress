@@ -43,8 +43,8 @@ BABEL_DEFAULT_TIMEZONE = 'Asia/Shanghai'
 
 BLOGUSERMAIL="fzleee@gmail.com"
 
-NOT_LOGIN_TAG=(('Home','/'),('Login','/login'),)
-ADMIN_TAG=(('Home','/'),('Manage','/admin'),('NewPost','/admin/post'),('Database','/_ah/admin/datastore'))
+NOT_LOGIN_TAG=(('Top','#top'),('Login','/login'),)
+ADMIN_TAG=(('Top','#top'),('Manage','/admin'),('NewPost','/admin/post'),('Database','/_ah/admin/datastore'))
 NONE_LOGIN_TAG=(('Home','/'))
 ADMIN_TOOL_BAR=(('写文章','/admin/post'),('文章','/page'),('设置','/setting'),('链接','/link'),('资源','/media'))
 

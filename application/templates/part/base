@@ -18,6 +18,7 @@
 </head>
 {%block body%}
 <body>
+	<a name="top"></a>
 {%endblock body%}
 	{%block topbar%}
 		{%include 'part/topbar'%}

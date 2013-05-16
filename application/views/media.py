@@ -9,6 +9,7 @@ from flask import Blueprint,render_template,g,request,Response
 from application.models import SPost,Tag,User,Link,Media
 from application.decorators import admin_required
 from application.settings import BLOGUSERMAIL
+from application.decorators import cached
 import json
 import mimetypes
 import time,logging
@@ -33,6 +34,7 @@ def uploadmedia():
 	Media.updatecache()
 	return json.dumps({'serverImagePath':'/media/get/'+str(media.blobkey)+'/'+media.name})
 
+@cached(time=24*60*60)
 @media.route('/get/<media_id>/<fpname>')
 def getmedia(media_id,fpname):
 	media=Media.getmediainfo(media_id)

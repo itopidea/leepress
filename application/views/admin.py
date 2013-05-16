@@ -11,6 +11,7 @@ from application.models import SPost,Tag,User,Link,Media,Comment
 from application.decorators import admin_required
 import json,logging
 
+from google.appengine.api import memcache
 adminor=Blueprint('admin',__name__,template_folder="../templates")
 
 #@adminor.route("/")
@@ -98,6 +99,7 @@ def setting():
 		User.updatecache(one)
 		Tag.updatecache()
 		Comment.updatecache()
+		Link.updatecache()
 
 		return json.dumps({'message':'success'})
 
@@ -130,11 +132,19 @@ def comment(page=1):
 	pagecount=Comment.Allcount/User.COMMENT_IN_ADMIN+1
 	if Comment.Allcount%User.COMMENT_IN_ADMIN==0:
 		pagecount=pagecount-1
-	logging.info('xxxxxxxxxxxxxxxx')
-	logging.info(pagecount)
 	return render_template('admin/comment.html',
 							commentlist=commentlist,
 							pagecount=pagecount,
 							currentpage=page
 							)
+
+
+@adminor.route('/clearcache')
+@admin_required
+def clearcache():
+	memcache.flush_all()
+	return json.dumps({'status':1})
+
+
+
 

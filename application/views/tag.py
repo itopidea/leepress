@@ -8,12 +8,13 @@
 
 from flask import Blueprint, Response, request, flash, jsonify, g, current_app,\
 	abort, redirect, url_for, session, send_file, send_from_directory,render_template
-
 from application.models import Tag,SPost,User
+from application.decorators import cached
 import urllib
 
 tag = Blueprint('tag',__name__,template_folder="../templates")
 
+@cached(time=60*60)
 @tag.route('')
 @tag.route('/')
 @tag.route('/<int:page>')

@@ -8,12 +8,14 @@
 from flask import Blueprint,render_template,g,request
 from application.models import SPost,Tag,User,Link,Media
 from application.decorators import admin_required
+from application.decorators import cached
 import json
 
 
 search=Blueprint('search',__name__,template_folder="../templates")
 
 
+@cached(time=60*60)
 @search.route('')
 @search.route('/')
 @search.route('/<int:page>')

@@ -12,6 +12,7 @@ from flask import Blueprint, Response, request, flash, jsonify, g, current_app,\
 	abort, redirect, url_for, session, send_file, send_from_directory, render_template 
 from application.extensions import db
 from application.models import User, SPost, Tag,Post
+from application.decorators import cached
 from google.appengine.api import users
 from application import settings 
 import urllib
@@ -44,6 +45,7 @@ frontend = Blueprint('frontend',__name__,template_folder="../templates")
 #		newpost.put()
 #	return "yes"
 
+@cached(time=30*60)
 @frontend.route('/')
 @frontend.route("/<int:page>")
 def index(page=1):
