@@ -26,9 +26,11 @@ post = Blueprint('post',__name__,template_folder="../templates")
 @post.route("/<int:post_id>", methods=("GET","POST"))
 def submit(post_id):
 	post=SPost.all().filter('post_id',post_id).get()
-	comments=Comment.all().filter('post_id',post_id).order('-create_date').fetch(1000)
-
-	return render_template('page.html',post=post,comments=comments)
+	if post:
+		comments=Comment.all().filter('post_id',post_id).order('-create_date').fetch(1000)
+		return render_template('page.html',post=post,comments=comments)
+	else:
+		abort(404)
 	# return render_template()
 
 @post.route("/newpost",methods=['POST'])

@@ -10,7 +10,7 @@ from google.appengine.ext import blobstore
 from application.extensions import db
 from google.appengine.api import files
 from application import settings
-import becer
+import becer,logging
 
 from google.appengine.api import memcache
 
@@ -21,6 +21,8 @@ class User(db.Model):
 	showtagsearchnumber=db.IntegerProperty()
 	showlinknumber=db.IntegerProperty()
 	showmediaadmin=db.IntegerProperty()
+	commentinadmin=db.IntegerProperty()
+	commentinsidebar=db.IntegerProperty()
 	#use one post for announcement
 	post_id=db.IntegerProperty()
 	announcelength=db.IntegerProperty()
@@ -31,9 +33,12 @@ class User(db.Model):
 	#how many tags are shown in home page
 	SHOW_TAG_NUMBER=20
 	#how many tags are shown in tag search page 
-	SHOW_TAGSEARCH_NUMBER=2
+	SHOW_TAGSEARCH_NUMBER=20
 	SHOW_LINK_NUMBER=10
-	MEDIA_IN_ADMIN=2
+	COMMENT_IN_ADMIN=20
+	COMMENT_IN_SIDEBAR=10
+	MEDIA_IN_ADMIN=20
+
 	ANNOUNCEMENT=""
 	POST_ID=-1
 	ANNOUNCELENGTH=100
@@ -47,6 +52,8 @@ class User(db.Model):
 		cls.SHOW_TAGSEARCH_NUMBER=one.showtagsearchnumber
 		cls.SHOW_LINK_NUMBER=one.showlinknumber
 		cls.MEDIA_IN_ADMIN=one.showmediaadmin
+		cls.COMMENT_IN_ADMIN=one.commentinadmin
+		cls.COMMENT_IN_SIDEBAR=one.commentinsidebar
 		cls.ANNOUNCELENGTH=one.announcelength
 		cls.POST_ID=one.post_id
 		if one.post_id!=-1:
@@ -270,17 +277,13 @@ class Comment(db.Model):
 	create_date=db.IntegerProperty()
 	ip=db.StringProperty()
 
-	RECENTCOMMENT=""
-
+	RecentComment=[]
+	Allcount=0
 	@classmethod
 	def properid(cls):
 		comment=Comment.all().order('-comment_id').get()
 		comment_id=comment.comment_id+1 if comment else 1
 		return comment_id
-
-	@classmethod
-	def updatecache(cls):
-		pass
 
 	def getjsonobj(self):
 		return {"comment_id":self.comment_id,
@@ -291,6 +294,22 @@ class Comment(db.Model):
 						"create_date":self.create_date,
 						"ip":self.ip
 						}
+	@classmethod
+	def getall(cls,post_id,PER_PAGE,beginpage):
+		logging.info('xxxxxxxxxx')
+		logging.info(post_id)
+		begin=(beginpage-1)*PER_PAGE
+		if post_id==-1:
+			commentlist=Comment.all().order('-create_date').fetch(PER_PAGE,begin)
+		else:
+			commentlist=Comment.all().filter('post_id',int(post_id)).order('-create_date').fetch(PER_PAGE,begin)
+
+		return commentlist
+
+	@classmethod
+	def updatecache(cls):
+		cls.Allcount=Comment.all().count()
+		cls.RecentComment=Comment.all().order('-create_date').fetch(User.COMMENT_IN_SIDEBAR)
 
 class Link(db.Model):
 	name=db.StringProperty()
@@ -415,10 +434,11 @@ class Media(db.Model):
 
 #init database
 Tag.updatecache()
-Post.updatecache()
+#Post.updatecache()
 SearchablePost.updatecache()
 Link.updatecache()
 Media.updatecache()
+Comment.updatecache()
 if User.all().count()==0:
 	one=User(postnumberhome=settings.PER_PAGE_IN_HOME,
 			postnumberadmin=settings.PER_PAGE_IN_ADMIN,
@@ -426,6 +446,8 @@ if User.all().count()==0:
 			showtagsearchnumber=settings.SHOW_TAGSEARCH_NUMBER,
 			showlinknumber=settings.SHOW_LINK_NUMBER,
 			showmediaadmin=settings.MEDIA_IN_ADMIN,
+			commentinadmin=settings.COMMENT_IN_ADMIN,
+			commentinsidebar=settings.COMMENT_IN_SIDEBAR,
 			announcelength=settings.ANNOUNCELENGTH,
 			post_id=-1)
 	one.put()

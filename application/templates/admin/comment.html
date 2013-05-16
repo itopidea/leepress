@@ -1,0 +1,92 @@
+{% extends 'admin/base' %}
+{%block admincontent%}
+<div id="admincontent">
+<div class="wrap">
+	<h4>评论列表</h4>
+</div>
+<form class="editform" id="deleteform">
+	<input type="button" class="lightbutton" id="delete" value="删除">
+	{%block pageindex%}
+		{%include 'part/pureindex'%}
+	{%endblock pageindex%}
+<table class="widefat" border="1">
+	<thead>
+		<tr>
+			<th class="check-column" scope="col" style="width:2%">
+			<input type="checkbox" onclick="$('input[class=page]').attr('checked',this.checked);">
+			</th>
+			<th style="width:12%">日期</th>
+			<th style="width:7%">文章</th>
+			<th style="width:10%">作者</th>
+			<th style="width:15%">IP</th>
+			<th>评论</th>
+		</tr>
+	</thead>
+	<tbody>
+	{%for item in commentlist%}
+		<tr>
+			<td>
+				<input class="page" type="checkbox" value="on" name="{{item.comment_id}}">
+			</td>
+			<td>
+				<div class="time">{{item.create_date}}</div>
+			</td>
+			<td>
+				<a href="/post/{{item.post_id}}">[文章]</a><a href="/admin/comment?post_id={{item.post_id}}">{{item.post_id}}</a>
+			</td>
+			<td><a href="mailto:{{item.email}}">{{item.nickname}}</a></td>
+			<td>{{item.ip}}</td>
+			<td>{{item.comment}}</td>
+			
+		</tr>
+	{%endfor%}
+
+	</tbody>
+</table>
+</form>
+
+</div>
+{%endblock admincontent%}
+{%block script%}
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.time').each(function(){
+			$(this).text(dateToString($(this).text(),"yyyy-MM-dd hh:mm"));
+		});
+		$("#delete").click(function(){
+			result=confirm("确定删除？");
+			//alert($('#deleteform').serialize());
+			if(result){
+				$.ajax({
+					cache:true,
+					type:"POST",
+					url:"/comment/delete",
+					async:true,
+					data:$('#deleteform').serialize(),
+					success:function(data){
+						window.location.reload()
+					}
+				});
+			}
+		});
+		$(".indexbutton").click(function(e){
+			var url="";
+			var param=""
+			if(window.location.href.indexOf('?')>0){
+				param=window.location.href.slice(window.location.href.indexOf('?') + 1);
+			}
+			
+			if($(this).val()!=1){
+				url="/admin/comment/"+$(this).val();
+			}
+			else{
+				url="/admin/comment";
+			}
+			if (param.length>0){
+				url=url+"?"+param;
+			}
+			location.href=url;
+		});
+	});
+</script>
+{%endblock script%}

@@ -51,11 +51,14 @@ ADMIN_TOOL_BAR=(('写文章','/admin/post'),('文章','/page'),('设置','/setti
 
 #how many posts are shown in the home page
 PER_PAGE_IN_HOME=15
-PER_PAGE_IN_ADMIN=50
+PER_PAGE_IN_ADMIN=20
+
 #how many tags are shown in home page
 SHOW_TAG_NUMBER=20
 #how many tags are shown in tag search page 
 SHOW_TAGSEARCH_NUMBER=20
 SHOW_LINK_NUMBER=10
 MEDIA_IN_ADMIN=10
+COMMENT_IN_ADMIN=20
+COMMENT_IN_SIDEBAR=10
 ANNOUNCELENGTH=200

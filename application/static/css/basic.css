@@ -399,8 +399,21 @@ color: #080808;
   padding-left: 15px;
 }
 
-#sidebar #linkfield li{
+ li{
   list-style: none;
+}
+#sidebar #recentcomment{
+  line-height: 16px;
+}
+
+#sidebar #recentcomment a{
+  font-size: 12px;
+  line-height: 14px;
+}
+#sidebar .eachcomment{
+  border-bottom: 1px solid #000000;
+  box-shadow: 0px 1px #2A2A2A;
+  padding:5px 0 5px 0;
 }
 /*tag.html && tag_not_found.html
 =====================*/

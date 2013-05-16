@@ -14,7 +14,7 @@ import sys
 reload(sys) 
 sys.setdefaultencoding('utf8')
 
-from models import Tag,Link,SPost,User
+from models import Tag,Link,SPost,User,Comment
 import views,settings
 
 MODULES=((views.frontend, ""),
@@ -47,6 +47,7 @@ def configure_before_handlers(app):
 		g.tag=Tag.CachedTag
 		g.link=Link.LinkListShow
 		g.announcement=User.ANNOUNCEMENT
+		g.comments=Comment.RecentComment
 
 def configure_errorhandlers(app):
 

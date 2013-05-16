@@ -39,14 +39,12 @@ $(document).ready(function(){
         </div>
 
     </div>
-       <div class="links sidebartype">
+    <div class="links sidebartype">
         <h4>LINKS</h4>
         <div id="linkfield">
             <ul>
                 {%for item in g.link%}
-
                 <li><a href="{{item.link}}">{{item.name}}</a></li>
-
                 {%endfor%}
                 <div id="seemore">
                     {%if g.link|length >8 %}
@@ -55,6 +53,20 @@ $(document).ready(function(){
                 </div>
             </ul>
         </div>
+    </div>
+    <div class="recentcomments sidebartype">
+        <h4>RECENT COMMENTS</h4>
+        <div id="recentcomment">
+            <ul>
+            {%for item in g.comments%}
+            <div class="eachcomment">
+            <li>{{item.nickname}} <span class="smalltime">{{item.create_date}}</span>:<br>
+                &nbsp;&nbsp;<a href="/post/{{item.post_id}}">{{item.comment|striptags|truncate(length=200, killwords=True, end='.......')}}</a></li>
+            </div>
+            {%endfor%}
+            </ul>
+        </div>
+        
     </div>
   
     

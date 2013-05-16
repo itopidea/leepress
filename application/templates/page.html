@@ -24,20 +24,25 @@
                     <a class="tagitem" href="/tag/{{tag}}">{{tag}}</a>
                 {%endfor%}
                  </div><div class="clear spacecontent20"></div>
-                Operation:&nbsp;<a href="/admin/post/{{post.post_id}}">编辑</a>,<a class="gotocomment">回复</a>
+                Operation:&nbsp;<a href="/admin/post/{{post.post_id}}">编辑</a>{%if post.allowcomment%}, <a class="gotocomment">回复</a>{%endif%}
 				<div class="spacecontent20"></div>
 			</div>
 		</div>
 	</div>
+
     {%if comments%}
     <div id="comment" class="post">
         <h4>COMMENTS</h4>
-        {%for comment in comments%}
-            <div class="onecomment">
-                <p><strong>{{comment.nickname}}</strong> 在 <span class="smalltime">{{comment.create_date}}</span>:</p>
-                {{comment.comment}}  
-            </div>
-        {%endfor%}
+        {%if post.allowcomment%}
+            {%for comment in comments%}
+                <div class="onecomment">
+                    <p><strong>{{comment.nickname}}</strong> 在 <span class="smalltime">{{comment.create_date}}</span>:</p>
+                    {{comment.comment}}  
+                </div>
+            {%endfor%}
+        {%else%}
+        <div class="onecomment">抱歉，本文暂未开放评论...</div>
+        {%endif%}
     {%endif%}
 
 
@@ -106,7 +111,7 @@ $(document).ready(function(){
             $target = $target.length && $target || $('[name=' + this.hash.slice(1) +']');
             if ($target.length) {
                 var targetOffset = $target.offset().top;
-                $('html,body').animate({scrollTop: targetOffset-36}, 1000);
+                $('html,body').animate({scrollTop: targetOffset-36}, 500);
                 return false;
             }
         }
@@ -116,27 +121,34 @@ $(document).ready(function(){
         $(this).click(function(){
             if($('#makecomment').length==0){
                 var makecomment=$('<div id="makecomment" class="post"></div>');
-                var title=$('<h4>LEAVE A COMMENT</h4>')
+                var title=$('<h4><a id="makecommentanchor" name="makecomment"></a>LEAVE A COMMENT</h4>')
                 var button=$('<input type="button" id="commentbutton" style="width:40px;height:30px;padding:0;margin:0;" class="darkbutton" value="GO">')
                 var textfield=$('<textarea id="commenttextarea" rows="4" style="width:100%; background:#000000; border:0;border-radius:3px;color:#999999"></textarea>');
                 makecomment.append(title);
                 makecomment.append(button);
                 makecomment.append($('<br><br>'));
                 makecomment.append(textfield);
-                $('#main').append(makecomment);
+                $('#page').after(makecomment);
+                var targetOffset=$('#makecommentanchor').offset().top;
+                $('html,body').animate({scrollTop: targetOffset-36}, 500);
+                $('#commenttextarea').focus();
                 //bind functions
                 $('#commentbutton').click(function(){
-                    alert($('#commenttextarea').val());
-                    var url="/comment/"+$('#post_id').val();
+                    var url="/comment/newcomment/"+$('#post_id').val();
+                    comment=$('#commenttextarea').val().replace(/(^\s*)|(\s*$)/g,'');
+                    if(comment==""){
+                        alert("请输入评论");
+                        return;
+                    }
                     $.ajax({
                         cache:true,
                         type:"POST",
                         url:url,
-                        data:$('#commenttextarea').val(),
+                        data:comment,
                         contentType:"text/plain",
                         async:true,
-                        error:function(){
-                            alert("connection error");
+                        error:function(data){
+                            alert('connection error');
                         },
                         success:function(data){
                             var result=JSON.parse(data);
@@ -150,16 +162,14 @@ $(document).ready(function(){
                     });
                 });
             }
-        return false;
         });
     });
-    //get comment
-    function getcomment(){
-        
-
-    }
     //fresh comment
     function freshComment(){
+        if($('#comment').length==0){
+            $('#page').after('<div id="comment" class="post"></div>');
+        }
+
         $('#comment').empty();
         var h4=$('<h4>COMMENTS</h4>');
         $('#comment').append(h4);
@@ -168,8 +178,8 @@ $(document).ready(function(){
             async:true,
             url:url,
             success:function(data){
-                alert(data);
                 result=JSON.parse(data);
+                $('#makecomment').replaceWith('');
                 for(var i=0;i<result.length;i++){
                     var tmp="<div class='onecomment'><p><strong>";
                     tmp+=result[i].nickname+"</strong>"+" 在 ";
@@ -177,12 +187,12 @@ $(document).ready(function(){
                     tmp+=result[i].comment+"</div>";
                     $('#comment').append(tmp);
                 }
+                var targetOffset=$('#comment').offset().top;
+                $('html,body').animate({scrollTop: targetOffset-36}, 500);
 
             },
             error:function(){
                 alert('connection error');
-                
-
             }
         });
 

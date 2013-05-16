@@ -7,9 +7,9 @@
 """
 
 from flask import Blueprint,render_template,g,request
-from application.models import SPost,Tag,User,Link,Media
+from application.models import SPost,Tag,User,Link,Media,Comment
 from application.decorators import admin_required
-import json
+import json,logging
 
 adminor=Blueprint('admin',__name__,template_folder="../templates")
 
@@ -59,6 +59,7 @@ def setting():
 		showtagsearchnumber=User.SHOW_TAGSEARCH_NUMBER
 		showlinknumber=User.SHOW_LINK_NUMBER
 		mediainadmin=User.MEDIA_IN_ADMIN
+		commentinadmin=User.COMMENT_IN_ADMIN
 		announcelength=User.ANNOUNCELENGTH
 		return render_template('admin/setting.html',
 							post_id=post_id,
@@ -68,6 +69,7 @@ def setting():
 							showtagsearchnumber=showtagsearchnumber,
 							showlinknumber=showlinknumber,
 							mediainadmin=mediainadmin,
+							commentinadmin=commentinadmin,
 							announcelength=announcelength
 							)
 	else :
@@ -78,6 +80,7 @@ def setting():
 		one.postnumberadmin=int(form['postnumberadmin'])
 		one.showtagnumber=int(form['showtagnumber'])
 		one.showmediaadmin=int(form['mediainadmin'])
+		one.commentinadmin=int(form['commentinadmin'])
 		one.announcelength=int(form['announcelength'])
 		if int(form['showtagsearchnumber'])!=one.showtagsearchnumber:
 			needupdate=True
@@ -91,6 +94,7 @@ def setting():
 		one.put()
 		User.updatecache(one)
 		Tag.updatecache()
+		Comment.updatecache()
 
 		return json.dumps({'message':'success'})
 
@@ -108,3 +112,26 @@ def media(page=1):
 							medialist=medialist,
 							pagecount=pagecount,
 							currentpage=page)
+
+@adminor.route('/comment')
+@adminor.route('/comment/<int:page>')
+@admin_required
+def comment(page=1):
+	logging.info(page)
+	logging.info(User.COMMENT_IN_ADMIN)
+	if 'post_id' in request.args:
+		post_id=request.args['post_id']
+		commentlist=Comment.getall(post_id,User.COMMENT_IN_ADMIN,page)
+	else:
+		commentlist=Comment.getall(-1,User.COMMENT_IN_ADMIN,page)
+	pagecount=Comment.Allcount/User.COMMENT_IN_ADMIN+1
+	if Comment.Allcount%User.COMMENT_IN_ADMIN==0:
+		pagecount=pagecount-1
+	logging.info('xxxxxxxxxxxxxxxx')
+	logging.info(pagecount)
+	return render_template('admin/comment.html',
+							commentlist=commentlist,
+							pagecount=pagecount,
+							currentpage=page
+							)
+

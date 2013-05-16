@@ -11,7 +11,7 @@
 			<li class="suboption"><a href="/admin/setting">设置</a></li>
 			<li class="suboption"><a href="/admin/link">链接</a></li>
 			<li class="suboption"><a href="/admin/media">文件</a></li>
-			<li class="suboption"><a href="">评论</a></li>	
+			<li class="suboption"><a href="/admin/comment">评论</a></li>	
 		</ul>
 		<div class="clear"></div>
 	</div>
