@@ -144,7 +144,7 @@ $(document).ready(function(){
                         cache:true,
                         type:"POST",
                         url:url,
-                        data:comment,
+                        data:encodeURIComponent(comment),
                         contentType:"text/plain",
                         async:true,
                         error:function(data){

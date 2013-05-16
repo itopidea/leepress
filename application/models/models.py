@@ -39,7 +39,7 @@ class User(db.Model):
 	COMMENT_IN_SIDEBAR=10
 	MEDIA_IN_ADMIN=20
 
-	ANNOUNCEMENT=""
+	ANNOUNCEMENT="xy"
 	POST_ID=-1
 	ANNOUNCELENGTH=100
 	@classmethod
@@ -57,7 +57,7 @@ class User(db.Model):
 		cls.ANNOUNCELENGTH=one.announcelength
 		cls.POST_ID=one.post_id
 		if one.post_id!=-1:
-			cls.ANNOUNCEMENT=Post.all().filter('post_id',one.post_id).get().content[0:cls.ANNOUNCELENGTH]
+			cls.ANNOUNCEMENT=SearchablePost.all().filter('post_id',one.post_id).get().content[0:cls.ANNOUNCELENGTH]
 
 
 class Post(db.Model):
@@ -273,7 +273,7 @@ class Comment(db.Model):
 	post_id=db.IntegerProperty()
 	email=db.StringProperty()
 	nickname=db.StringProperty()
-	comment=db.StringProperty()
+	comment=db.TextProperty()
 	create_date=db.IntegerProperty()
 	ip=db.StringProperty()
 
@@ -451,6 +451,7 @@ if User.all().count()==0:
 			announcelength=settings.ANNOUNCELENGTH,
 			post_id=-1)
 	one.put()
+	logging.info('xxxxxxxxxxxxxxxxyxxx')
 	User.updatecache(one)
 else:
 	User.updatecache()

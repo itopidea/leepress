@@ -60,6 +60,7 @@ def setting():
 		showlinknumber=User.SHOW_LINK_NUMBER
 		mediainadmin=User.MEDIA_IN_ADMIN
 		commentinadmin=User.COMMENT_IN_ADMIN
+		commentinsidebar=User.COMMENT_IN_SIDEBAR
 		announcelength=User.ANNOUNCELENGTH
 		return render_template('admin/setting.html',
 							post_id=post_id,
@@ -70,6 +71,7 @@ def setting():
 							showlinknumber=showlinknumber,
 							mediainadmin=mediainadmin,
 							commentinadmin=commentinadmin,
+							commentinsidebar=commentinsidebar,
 							announcelength=announcelength
 							)
 	else :
@@ -81,6 +83,7 @@ def setting():
 		one.showtagnumber=int(form['showtagnumber'])
 		one.showmediaadmin=int(form['mediainadmin'])
 		one.commentinadmin=int(form['commentinadmin'])
+		one.commentinsidebar=int(form['commentinsidebar'])
 		one.announcelength=int(form['announcelength'])
 		if int(form['showtagsearchnumber'])!=one.showtagsearchnumber:
 			needupdate=True
