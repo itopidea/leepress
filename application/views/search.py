@@ -18,7 +18,6 @@ search=Blueprint('search',__name__,template_folder="../templates")
 @search.route('')
 @search.route('/')
 @search.route('/<int:page>')
-@cached(time=60*60)
 def dosearch(page=1):
 	'''
 	you can use 'and' operation here ,like a && b 
@@ -27,17 +26,8 @@ def dosearch(page=1):
 	if 'search' not in request.args:
 		return render_template('search.html',searchtag="",pagecount=0)
 	searchtag=request.args['search']
-	searchlist=[]
-	if '&&' in searchtag:
-		searchlist=searchtag.split('&&')
-		searchlist=[i.strip() for i in searchlist]
-	else:
-		searchlist=[searchtag]
 
-	allpost=SPost.all()
-	for eachsearch in searchlist:
-		if eachsearch is not None:
-			allpost=allpost.search(eachsearch,['content'])
+	allpost=SPost.all().search(searchtag,['content'])
 
 	pagecount=allpost.count()/User.SHOW_TAGSEARCH_NUMBER+1
 	if allpost.count()%User.SHOW_TAGSEARCH_NUMBER==0:

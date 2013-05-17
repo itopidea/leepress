@@ -38,7 +38,6 @@ def add():
 	newlink.create_date=int(time.time())
 	newlink.link_id=Link.properid()
 	newlink.put()
-	Link.updatecache()
 	return json.dumps({'message':'success'})
 
 @link.route("/delete",methods=['POST'])

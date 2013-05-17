@@ -33,7 +33,7 @@ def post(post_id=None):
 @adminor.route('/page/<int:page>')
 @admin_required
 def page(page=1):
-	postlist=SPost.get(True,User.PER_PAGE_IN_ADMIN,page)
+	postlist=SPost.get_all(True,User.PER_PAGE_IN_ADMIN,page)
 	pagecount=SPost.AllCount/User.PER_PAGE_IN_ADMIN+1
 	if SPost.AllCount%User.PER_PAGE_IN_ADMIN==0:
 		pagecount=pagecount-1

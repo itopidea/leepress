@@ -24,11 +24,10 @@ from application.decorators import cached
 post = Blueprint('post',__name__,template_folder="../templates")
 
 @post.route("/<int:post_id>", methods=("GET","POST"))
-@cached(time=60*60)
 def getfullpost(post_id):
-	post=SPost.all().filter('post_id',post_id).get()
+	post=SPost.cached_get_by_id(post_id)
 	if post:
-		comments=Comment.all().filter('post_id',post_id).order('-create_date').fetch(1000)
+		comments=Comment.cached_get_by_id(post_id)
 		return render_template('page.html',post=post,comments=comments)
 	else:
 		abort(404)
