@@ -12,18 +12,35 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 	<script src="/static/js/jquery.form.js"></script>
 	<script src="/static/js/jquery.json-2.4.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('a[href*=#]').click(function() {
+    	if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+            var $target = $(this.hash);
+			$target = $target.length && $target || $('[name=' + this.hash.slice(1) +']');
+            if ($target.length) {
+                var targetOffset = $target.offset().top;
+                $('html,body').animate({scrollTop: targetOffset-36}, 500);
+                return false;
+            }
+        }
+    });
+});
+
+
+</script>
+	
 	
 	{%block script%}{%endblock script%}
 	{%block css%}{%endblock css%}
 </head>
 {%block body%}
 <body>
-	<a name="top"></a>
 {%endblock body%}
 	{%block topbar%}
 		{%include 'part/topbar'%}
 	{%endblock topbar%}
-	
+	<a name="top"></a>
 	<div id="centerblock">
 		{%block content%}
 		<div id="content">
@@ -35,8 +52,10 @@
 		</div>
 		{%endblock content%}
 	</div>
+<a name="bottom"></a>
 {%block footbar%}
 <div class="footbar clear">
+
 	{%block googleanalysis%}
 	<div class="google analysis">
 	<script>

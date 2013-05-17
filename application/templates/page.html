@@ -104,18 +104,6 @@ $(document).ready(function(){
 		$(this).text(dateToString($(this).text(),"yyyy-MM-dd hh:mm"));
 	});
 	SyntaxHighlighter.all();
-	$('a[href*=#]').click(function() {
-    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') 
-        && location.hostname == this.hostname) {
-            var $target = $(this.hash);
-            $target = $target.length && $target || $('[name=' + this.hash.slice(1) +']');
-            if ($target.length) {
-                var targetOffset = $target.offset().top;
-                $('html,body').animate({scrollTop: targetOffset-36}, 500);
-                return false;
-            }
-        }
-    });
     //add comment
     $(".gotocomment").each(function(){
         $(this).click(function(){
@@ -188,6 +176,10 @@ $(document).ready(function(){
                     $('#comment').append(tmp);
                 }
                 var targetOffset=$('#comment').offset().top;
+                $('#message').html('');
+                var message="<span id='tmp'>评论成功，稍后将会显示</span>";
+                $('#message').html(message);
+                $('#tmp').fadeOut(2000);
                 $('html,body').animate({scrollTop: targetOffset-36}, 500);
 
             },

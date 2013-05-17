@@ -199,7 +199,7 @@ height:100px;
   height:35px;
   position:fixed;
   width:100%;
-  z-index:1000;
+  z-index:2;
   top:0px;
 }
 #topbar #logo{
@@ -281,6 +281,7 @@ body .post h3 {
 body #centerblock {
   width:100%;
   margin-top:35px;
+  position: relative;
 
 }
 body #centerblock #content #main{
@@ -388,7 +389,7 @@ color: #080808;
 #sidebar #seemore{
   font-size: 0.8em;
   float:right;
-  padding-right: 40px;
+  padding-right: 20px;
 
 }
 

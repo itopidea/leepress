@@ -8,7 +8,7 @@
 		<ul>
 			{%if showlink%}
 				{%for link in showlink%}
-				<li><a href="{{link.link}}">{{link.name}}</a>
+				<li><a href="{{link.link}}">{{link.name}}</a>&nbsp;&nbsp;&nbsp;&nbsp;<span>{{link.description}}</span>
 				</li>
 				{%endfor%}
 			{%else%}

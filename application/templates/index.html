@@ -16,9 +16,12 @@
 		<span class="smalltime">{{item.create_date}}</span>
 		<div class="content">{{item.content|striptags|truncate(length=200, killwords=True, end='.......')}}</div>
 		<div class="tagcloud">
-			{%for tag in item.tags%}
-			<a class="tagitem">{{tag}}</a>
-			{%endfor%}
+				{%for tag in item.tags%}
+					{%if tag %}
+					<a class="tagitem">{{tag}}</a>
+					{%endif%}
+				{%endfor%}
+			
 		</div>
 	</div>
 	

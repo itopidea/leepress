@@ -7,6 +7,6 @@ from .link import link
 from .admin import adminor as admin
 from .tag import tag
 from .media import media
-from .search import search
+from .makesearch import makesearch
 from .comment import comment
 from .task import task

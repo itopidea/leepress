@@ -6,6 +6,8 @@
 	:license: BSD, see LICENSE for more details.
 """
 from models import User,Link,Tag,Media
-from models import SearchablePost as SPost
+#from models import SearchablePost as SPost
 from models import Post as Post
 from models import Comment
+
+from models import SearchablePost as SPost

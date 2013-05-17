@@ -18,14 +18,14 @@ from flask import Blueprint, Response, request, flash, jsonify, g, current_app, 
 
 from application.decorators import admin_required
 from application.extensions import db
-from application.models import User, SPost,Tag,Comment
+from application.models import User, Post,Tag,Comment
 from application.decorators import cached
 
 post = Blueprint('post',__name__,template_folder="../templates")
 
 @post.route("/<int:post_id>", methods=("GET","POST"))
 def getfullpost(post_id):
-	post=SPost.cached_get_by_id(post_id)
+	post=Post.cached_get_by_id(post_id)
 	if post:
 		comments=Comment.cached_get_by_id(post_id)
 		return render_template('page.html',post=post,comments=comments)
@@ -37,7 +37,7 @@ def getfullpost(post_id):
 @admin_required
 def newpost():
 	form=request.args
-	newpost=SPost(title=form['title'],
+	newpost=Post(title=form['title'],
 				content=urllib.unquote(request.data).decode('utf-8'),
 				num_lookup=0
 				)
@@ -49,13 +49,13 @@ def newpost():
 		newpost.allowcomment=True
 	else :
 		newpost.allowcomment=False
-	newpost.post_id=SPost.properid()
+	newpost.post_id=Post.properid()
 	newpost.settags(form['tags'])
 	newpost.create_date=int(time.time())
 	newpost.update_time=newpost.create_date
-	newpost.put()
+	newpost.put_into()
 	Tag.updatecache()
-	SPost.updatecache()
+	Post.updatecache()
 	#return json.dumps({'message':newpost.content,'post_id':newpost.post_id})
 	return json.dumps({'message':'success','post_id':newpost.post_id})
 
@@ -65,7 +65,7 @@ def updatepost():
 	form =request.args
 #	print request.data
 	if form.has_key('post_id'):
-		post=SPost.getone(form['post_id'])
+		post=Post.getone(form['post_id'])
 		post.title=form['title']
 		post.content=urllib.unquote(request.data).decode('utf-8')
 		post.settags(form['tags'])
@@ -78,7 +78,7 @@ def updatepost():
 			post.allowcomment=True
 		else :
 			post.allowcomment=False
-		post.put()
+		post.put_into()
 		Tag.updatecache()
 		return json.dumps({'message':'success','post_id':form['post_id']})
 	return "no such key exsits"
@@ -88,7 +88,7 @@ def getpost(post_id):
 	'''
 	if there is no such post return post_id=-1 
 	'''
-	post=SPost.all().filter('post_id',post_id).get()
+	post=Post.all().filter('post_id',post_id).get()
 	if post and post.saveonly==False:
 		return post.getjson()
 	else:
@@ -103,11 +103,11 @@ def deletepage():
 	for item in form:
 		pagelist.append(int(item))
 	for item in pagelist:
-		post=SPost.all().filter('post_id',item).get()
+		post=Post.all().filter('post_id',item).get()
 		if post:
 			post.remove()
 	Tag.updatecache()
-	SPost.updatecache()
+	Post.updatecache()
 	return json.dumps({'status':1})
 
 #@post.route('/uploadimage',methods=['POST'])

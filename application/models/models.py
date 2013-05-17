@@ -7,12 +7,14 @@
 """
 import json as json
 from google.appengine.ext import blobstore
-from application.extensions import db
-from google.appengine.api import files
+from application.extensions import db,Index
+from google.appengine.api import files,search
+from application.decorators import cached
 from application import settings
-import becer,logging
+import becer,logging,datetime
 
 from google.appengine.api import memcache
+
 
 class User(db.Model):
 	postnumberhome=db.IntegerProperty()
@@ -39,7 +41,7 @@ class User(db.Model):
 	COMMENT_IN_SIDEBAR=10
 	MEDIA_IN_ADMIN=20
 
-	ANNOUNCEMENT="xy"
+	ANNOUNCEMENT=""
 	POST_ID=-1
 	ANNOUNCELENGTH=100
 	@classmethod
@@ -57,7 +59,8 @@ class User(db.Model):
 		cls.ANNOUNCELENGTH=one.announcelength
 		cls.POST_ID=one.post_id
 		if one.post_id!=-1:
-			cls.ANNOUNCEMENT=SearchablePost.all().filter('post_id',one.post_id).get().content[0:cls.ANNOUNCELENGTH]
+			onepost=SearchablePost.all().filter('post_id',one.post_id).get()
+			cls.ANNOUNCEMENT=onepost.content[0:cls.ANNOUNCELENGTH] if onepost else ""
 
 
 class Post(db.Model):
@@ -68,7 +71,7 @@ class Post(db.Model):
 	tags = db.StringListProperty()
 	saveonly=db.BooleanProperty()
 	allowcomment=db.BooleanProperty()
-	num_lookup=db.IntegerProperty()
+	num_lookup=db.IntegerProperty(default=0)
 	#id for each post ,since the original key value will change after put() 
 	post_id=db.IntegerProperty()
 
@@ -76,8 +79,19 @@ class Post(db.Model):
 	PostCount=0
 	AllCount=0
 
+
 	@classmethod
-	def get(cls,getall,PER_PAGE,beginpage):
+	@cached(10*60)
+	def cached_get(cls,getall,PER_PAGE,beginpage):
+		begin=(beginpage-1)*PER_PAGE
+		if not getall:
+			postlist=Post.all().filter('saveonly = ',False).order('-create_date').fetch(PER_PAGE,begin)
+		else:
+			postlist=Post.all().order('-create_date').fetch(PER_PAGE,begin)
+		return postlist 
+
+	@classmethod
+	def get_all(cls,getall,PER_PAGE,beginpage):
 		begin=(beginpage-1)*PER_PAGE
 		if not getall:
 			postlist=Post.all().filter('saveonly = ',False).order('-create_date').fetch(PER_PAGE,begin)
@@ -85,6 +99,16 @@ class Post(db.Model):
 			postlist=Post.all().order('-create_date').fetch(PER_PAGE,begin)
 		return postlist 
 	
+
+	@classmethod
+	@cached(10*60)
+	def cached_get_by_id(cls,post_id=0):
+		return Post.all().filter('post_id',post_id).get()
+		
+	@classmethod
+	@cached(10*60)
+	def cached_get_by_id_list(cls,allpostid):
+		return Post.all().filter('post_id in',allpostid)
 
 	@classmethod
 	def getone(cls,post_id):
@@ -99,7 +123,7 @@ class Post(db.Model):
 
 	@classmethod
 	def properid(cls):
-		post=cls.all().order('-post_id').get()
+		post=Post.all().order('-post_id').get()
 		return post.post_id+1 if post else 1
 
 	def settags(self,values):
@@ -124,7 +148,25 @@ class Post(db.Model):
 			Tag.add(v)
 		self.tags=tags
 	
+	def put_into(self):
+		one=Index.get(doc_id=str(self.post_id))
+		if one:
+			Index.delete([str(self.post_id)])
+		document=search.Document(
+			doc_id=str(self.post_id),
+			fields=[
+				search.TextField(name="title",value=self.title),
+				search.HtmlField(name="content",value=self.content),
+				search.DateField(name="create_date",value=datetime.date.fromtimestamp(self.create_date))
+				])
+		Index.put(document)
+		self.put()
+
 	def remove(self):
+		one=Index.get(doc_id=str(self.post_id))
+		if one:
+			Index.delete([str(self.post_id)])
+
 		removelist=[n for n in self.tags]
 		for n in removelist:
 			Tag.remove(n)
@@ -151,7 +193,7 @@ class SearchablePost(becer.Model):
 	tags = db.StringListProperty()
 	saveonly=db.BooleanProperty()
 	allowcomment=db.BooleanProperty()
-	num_lookup=db.IntegerProperty()
+	num_lookup=db.IntegerProperty(default=0)
 	#id for each post ,since the original key value will change after put() 
 	post_id=db.IntegerProperty()
 
@@ -165,7 +207,17 @@ class SearchablePost(becer.Model):
 		return[['content']]
 
 	@classmethod
-	def get(cls,getall,PER_PAGE,beginpage):
+	@cached(10*60)
+	def cached_get(cls,getall,PER_PAGE,beginpage):
+		begin=(beginpage-1)*PER_PAGE
+		if not getall:
+			postlist=SearchablePost.all().filter('saveonly = ',False).order('-create_date').fetch(PER_PAGE,begin)
+		else:
+			postlist=SearchablePost.all().order('-create_date').fetch(PER_PAGE,begin)
+		return postlist 
+
+	@classmethod
+	def get_all(cls,getall,PER_PAGE,beginpage):
 		begin=(beginpage-1)*PER_PAGE
 		if not getall:
 			postlist=SearchablePost.all().filter('saveonly = ',False).order('-create_date').fetch(PER_PAGE,begin)
@@ -173,6 +225,12 @@ class SearchablePost(becer.Model):
 			postlist=SearchablePost.all().order('-create_date').fetch(PER_PAGE,begin)
 		return postlist 
 	
+
+	@classmethod
+	@cached(10*60)
+	def cached_get_by_id(cls,post_id=0):
+		return SearchablePost.all().filter('post_id',post_id).get()
+		
 
 	@classmethod
 	def getone(cls,post_id):
@@ -294,10 +352,24 @@ class Comment(db.Model):
 						"create_date":self.create_date,
 						"ip":self.ip
 						}
+
+	@classmethod
+	@cached(10*60)
+	def cached_get_by_id(cls,post_id=0):
+		if post_id==0:
+			return Comment.all().order('-create_date').fetch(1000)
+		else:
+			return Comment.all().filter('post_id',post_id).order('-create_date').fetch(1000)
+	@classmethod
+	def get_by_id(cls,post_id=0):
+		if post_id==0:
+			return Comment.all().order('-create_date').fetch(1000)
+		else:
+			return Comment.all().filter('post_id',post_id).order('-create_date').fetch(1000)
+
+
 	@classmethod
 	def getall(cls,post_id,PER_PAGE,beginpage):
-		logging.info('xxxxxxxxxx')
-		logging.info(post_id)
 		begin=(beginpage-1)*PER_PAGE
 		if post_id==-1:
 			commentlist=Comment.all().order('-create_date').fetch(PER_PAGE,begin)
@@ -333,11 +405,11 @@ class Link(db.Model):
 		cls.LinkListShow=[]
 		alllink=Link.all().fetch(User.SHOW_LINK_NUMBER)
 		for each in alllink:
-			cls.LinkListAll.append({'name':each.name,'link':each.link})
+			cls.LinkListAll.append({'name':each.name,'link':each.link,'description':each.description})
 		
 		showlink=Link.all().filter('display',True).fetch(User.SHOW_LINK_NUMBER)
 		for each in showlink:
-			cls.LinkListShow.append({'name':each.name,'link':each.link})
+			cls.LinkListShow.append({'name':each.name,'link':each.link,'description':each.description})
 	
 	@classmethod
 	def deletelist(cls,idlist):
@@ -436,6 +508,8 @@ class Media(db.Model):
 Tag.updatecache()
 #Post.updatecache()
 SearchablePost.updatecache()
+Post.updatecache()
+
 Link.updatecache()
 Media.updatecache()
 Comment.updatecache()

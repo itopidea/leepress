@@ -8,7 +8,7 @@
 
 from flask import Blueprint, Response, request, flash, jsonify, g, current_app,\
 	abort, redirect, url_for, session, send_file, send_from_directory,render_template
-from application.models import Tag,SPost,User
+from application.models import Tag,Post,User
 from application.decorators import cached
 import urllib
 
@@ -23,7 +23,7 @@ def searchtagname(page=1):
 		return render_template('tag.html',allposst=[],pagecount=0,currentpage=1,tagname="")
 	tagname=urllib.unquote(request.args['tagname']).decode('utf-8')
 
-	allpost=SPost.all().filter('saveonly',False)
+	allpost=Post.all().filter('saveonly',False)
 	tagnamelist=tagname.split(',')
 	for eachtag in tagnamelist:
 		eachtag=eachtag.strip()

@@ -14,19 +14,19 @@ import sys
 reload(sys) 
 sys.setdefaultencoding('utf8')
 
-from models import Tag,Link,SPost,User,Comment
+from models import * 
 import views,settings
 
 MODULES=((views.frontend, ""),
     (views.post, "/post"),
     #(views.comment, "/comment"),
     (views.link, "/link"),
-    (views.feeds, "/feeds"),
     (views.admin,'/admin'),
 	(views.tag,'/tag'),
 	(views.media,'/media'),
-	(views.search,'/search'),
-	(views.comment,'/comment')
+	(views.makesearch,'/search'),
+	(views.comment,'/comment'),
+	(views.task,'/task')
 )
 
 def createapp():
@@ -41,8 +41,15 @@ def configure_before_handlers(app):
 
 	@app.before_request
 	def authenticate():
-		#if g.user and g.user.email()!=settings.BLOGUSERMAIL:
-		#	g.login=settings.NONE_LOGIN_TAG
+		g.isguest=False
+		g.user=users.get_current_user()
+		if g.user and g.user.email()==settings.BLOGUSERMAIL:
+			g.isadmin=True
+			g.isguest=False
+		elif g.user and g.user.email()!=settings.BLOGUSERMAIL:
+			g.isadmin=False
+			g.isguest=True
+
 		g.announceid=User.POST_ID
 		g.tag=Tag.CachedTag
 		g.link=Link.LinkListShow

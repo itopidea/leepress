@@ -7,7 +7,7 @@
 """
 
 from flask import Blueprint,render_template,g,request,session
-from application.models import SPost,Tag,User,Link,Media,Comment
+from application.models import Post,Tag,User,Link,Media,Comment
 from application.decorators import admin_required,login_required
 import json,time,logging,urllib
 from application.decorators import cached
@@ -23,7 +23,7 @@ def leavecomment(post_id=0):
 	elif post_id==0:
 		status=0
 		message="comment to the wrong page"
-	elif SPost.all().filter('post_id',post_id).get().allowcomment==False:
+	elif Post.all().filter('post_id',post_id).get().allowcomment==False:
 		status=0
 		message="comment is not allowded here"
 	else:

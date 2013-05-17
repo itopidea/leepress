@@ -7,7 +7,7 @@
 """
 
 from flask import Blueprint,render_template,g,request
-from application.models import SPost,Tag,User,Link,Media,Comment
+from application.models import Post,Tag,User,Link,Media,Comment
 from application.decorators import admin_required
 import json,logging
 
@@ -25,7 +25,7 @@ adminor=Blueprint('admin',__name__,template_folder="../templates")
 def post(post_id=None):
 	post=None
 	if post_id!=None:
-		post=SPost.getone(post_id)
+		post=Post.getone(post_id)
 	return render_template('admin/post.html',post=post)
 
 @adminor.route("/")
@@ -33,9 +33,9 @@ def post(post_id=None):
 @adminor.route('/page/<int:page>')
 @admin_required
 def page(page=1):
-	postlist=SPost.get_all(True,User.PER_PAGE_IN_ADMIN,page)
-	pagecount=SPost.AllCount/User.PER_PAGE_IN_ADMIN+1
-	if SPost.AllCount%User.PER_PAGE_IN_ADMIN==0:
+	postlist=Post.get_all(True,User.PER_PAGE_IN_ADMIN,page)
+	pagecount=Post.AllCount/User.PER_PAGE_IN_ADMIN+1
+	if Post.AllCount%User.PER_PAGE_IN_ADMIN==0:
 		pagecount=pagecount-1
 	return render_template('admin/pagelist.html',
 			postlist=postlist,
@@ -91,7 +91,7 @@ def setting():
 		one.showtagsearchnumber=int(form['showtagsearchnumber'])
 		one.showlinknumber=int(form['showlinknumber'])
 		one.post_id=int(form['post_id'])
-		another=SPost.all().filter('post_id',int(form['post_id'])).get()
+		another=Post.all().filter('post_id',int(form['post_id'])).get()
 		if not another:
 			one.post_id=-1
 		

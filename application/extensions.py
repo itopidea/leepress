@@ -17,7 +17,8 @@ from google.appengine.api import users
 #from models import Tag,Link,Post,User
 # from google.appengine.ext import ndb as db
 from google.appengine.ext import db
-
+from google.appengine.api import search 
+Index=search.Index(name="Post")
 
 #__all__ = ['mail', 'cache', 'photos']
 

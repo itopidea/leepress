@@ -11,20 +11,25 @@
 	
 	<div id="menu">
 		<ul>
-			{%if session.user%}
-			{%set taglist= session.topbar%}
-			{%for tag in taglist%}
-				<li>
-					<a href="{{tag[1]}}">{{tag[0]}}</a>
-				</li>
-			{%endfor%}
+			
+			{%if g.isadmin==True %}
+			<li><a href="/admin">Manage</a></li>
+			<li><a href="/admin/post">NewPost</a></li>
+			<li><a href="/_ah/admin/datastore">Appengine</a></li>
+			<li><a href="http://127.0.0.1:8000">Database</a></li>
+			
 			{%else%}
-				<li>
-					Welcome my guest, you can <a href="/login">Login</a>
-				</li>
+				{%if g.isguest==True %}
+				<li>Welcome,{{g.user.nickname()}}</li>
+				<li><a href="/logout">Logout</a></li>
+				{%else%}
+				<li>Welcome my guest, you can <a href="/login">Login</a></li>
+				{%endif%}
+
 			{%endif%}
 			
-
+			<li><a href="#top">&#8657;Top</a> </li>
+			<li><a href="#bottom">&#8659;Bottom</a> </li>
 		</ul>
 	</div>
 
