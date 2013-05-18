@@ -81,7 +81,7 @@ class Post(db.Model):
 
 
 	@classmethod
-	@cached(10*60)
+	@cached(15*60)
 	def cached_get(cls,getall,PER_PAGE,beginpage):
 		begin=(beginpage-1)*PER_PAGE
 		if not getall:
@@ -101,12 +101,12 @@ class Post(db.Model):
 	
 
 	@classmethod
-	@cached(10*60)
+	@cached(15*60)
 	def cached_get_by_id(cls,post_id=0):
 		return Post.all().filter('post_id',post_id).get()
 		
 	@classmethod
-	@cached(10*60)
+	@cached(15*60)
 	def cached_get_by_id_list(cls,allpostid):
 		return Post.all().filter('post_id in',allpostid)
 
@@ -354,7 +354,7 @@ class Comment(db.Model):
 						}
 
 	@classmethod
-	@cached(10*60)
+	@cached(30*60)
 	def cached_get_by_id(cls,post_id=0):
 		if post_id==0:
 			return Comment.all().order('-create_date').fetch(1000)
