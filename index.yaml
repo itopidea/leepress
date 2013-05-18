@@ -22,18 +22,6 @@ indexes:
   - name: create_date
     direction: desc
 
-- kind: Post
-  properties:
-  - name: saveonly=
-  - name: create_date
-    direction: desc
-
-- kind: Post
-  properties:
-  - name: saveonly==
-  - name: create_date
-    direction: desc
-
 - kind: SearchablePost
   properties:
   - name: saveonly
