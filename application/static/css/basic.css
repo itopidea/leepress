@@ -301,7 +301,7 @@ body #centerblock #content #main .content{
 }
 body #centerblock #content #main .post{
   padding:10px 20px;
-  margin:20px;
+  margin:20px 30px 20px 20px;
   overflow: hidden;
   border-top: 1px solid #353535;
   background-color: #131517;
@@ -339,7 +339,7 @@ body #centerblock #content #main #time .smalltime{
   margin-bottom: 14px;
 }
 #sidebar h4{
-  width:220px;
+  width:240px;
 }
 #sidebar p{
   width: 220px;
@@ -382,8 +382,8 @@ color: #080808;
 .tagcloud a
 {
   font-weight: 400;
-  font-size: 15px;
-  line-height: 15px;
+  font-size: 14px;
+  line-height: 14px;
 }
 #sidebar #seemore{
   font-size: 0.8em;

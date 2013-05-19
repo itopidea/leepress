@@ -21,4 +21,5 @@ from google.appengine.api import search
 Index=search.Index(name="Post")
 
 #__all__ = ['mail', 'cache', 'photos']
-
+from redis import Redis
+redis = Redis()

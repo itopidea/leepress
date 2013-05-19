@@ -24,11 +24,14 @@ $(document).ready(function(){
 
 </script>
 <div id="sidebar">
-    <div class="spacecontent40"></div>
+    <div class="spacecontent20"></div>
+   <!--  <div class="count sidebartype">
+        <strong>Online:{{g.online}}</strong>
+    </div> -->
     <div class="search sidebartype">
         <h4>SEARCH</h4>
 
-        <input type="text"  placeholder="" value="" id="sidebarcontentsearch" style="color:#FFFFFF;height:18px;background: #080808; border: 1px solid #000;padding: 5px 10px;border-radius: 15px;-webkit-border-radius: 15px;-moz-border-radius: 15px;width:140px;"/>
+        <input type="text"  placeholder="" value="" id="sidebarcontentsearch" style="color:#FFFFFF;height:18px;background: #080808; border: 1px solid #000;padding: 5px 10px;border-radius: 15px;-webkit-border-radius: 15px;-moz-border-radius: 15px;width:160px;"/>
         <input type="button" style="width:40px;height:30px;padding:0;margin:0;"id="sidebarsearchbutton" class="darkbutton" value="GO"/>
     </div>
     <div class="announcement sidebartype">

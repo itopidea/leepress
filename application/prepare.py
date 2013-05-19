@@ -10,6 +10,7 @@ configuration before you run flask
 from flask import Flask,g,request,render_template,jsonify,session
 from google.appengine.api import users
 
+#from  helpers import mark_online,get_online_users
 import sys 
 reload(sys) 
 sys.setdefaultencoding('utf8')
@@ -55,6 +56,11 @@ def configure_before_handlers(app):
 		g.link=Link.LinkListShow
 		g.announcement=User.ANNOUNCEMENT
 		g.comments=Comment.RecentComment
+#online count
+		#mark_online(request.remote_addr)
+		#g.online=get_online_users()
+
+
 
 def configure_errorhandlers(app):
 
