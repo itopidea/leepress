@@ -15,13 +15,13 @@
  * Dual licensed under the MIT and GPL licenses.
  */
 .syntaxhighlighter {
-  background-color: #080808 !important;
+  background-color: #1b2426 !important;
 }
 .syntaxhighlighter .line.alt1 {
-  background-color: #080808 !important;
+  background-color: #1b2426 !important;
 }
 .syntaxhighlighter .line.alt2 {
-  background-color: #080808 !important;
+  background-color: #1b2426 !important;
 }
 .syntaxhighlighter .line.highlighted.alt1, .syntaxhighlighter .line.highlighted.alt2 {
   background-color: #323e41 !important;
@@ -49,12 +49,12 @@
   overflow: visible !important;
 }
 .syntaxhighlighter.collapsed .toolbar {
-  color: #0088cc !important;
+  color: #5ba1cf !important;
   background: black !important;
   border: 1px solid #435a5f !important;
 }
 .syntaxhighlighter.collapsed .toolbar a {
-  color: #0088cc !important;
+  color: #5ba1cf !important;
 }
 .syntaxhighlighter.collapsed .toolbar a:hover {
   color: #5ce638 !important;
@@ -80,7 +80,7 @@
   color: #5ce638 !important;
 }
 .syntaxhighlighter .keyword {
-  color: #0088cc !important;
+  color: #5ba1cf !important;
 }
 .syntaxhighlighter .preprocessor {
   color: #435a5f !important;
@@ -99,7 +99,7 @@
 }
 .syntaxhighlighter .script {
   font-weight: bold !important;
-  color: #0088cc !important;
+  color: #5ba1cf !important;
   background-color: none !important;
 }
 .syntaxhighlighter .color1, .syntaxhighlighter .color1 a {

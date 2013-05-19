@@ -20,7 +20,7 @@ def admin_required(func):
 	"""Requires standard login credentials"""
 	@wraps(func)
 	def decorated_view(*args, **kwargs):
-		if g.user.email() ==  BLOGUSERMAIL:
+		if g.user and g.user.email() ==  BLOGUSERMAIL:
 			return func(*args, **kwargs)
 		else :
 			return redirect(users.create_login_url(request.url))
