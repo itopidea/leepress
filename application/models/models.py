@@ -525,7 +525,6 @@ if User.all().count()==0:
 			announcelength=settings.ANNOUNCELENGTH,
 			post_id=-1)
 	one.put()
-	logging.info('xxxxxxxxxxxxxxxxyxxx')
 	User.updatecache(one)
 else:
 	User.updatecache()

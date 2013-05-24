@@ -181,9 +181,11 @@ height:100px;
   padding: 10px 0;
 }
 .pageline{
-  background-image: url("/static/images/sidebar_bg.jpg");
-  background-position: 0% 100%;
-  background-repeat: repeat-x;
+  border-bottom:4px solid #080808;
+  border-radius:4px;
+  /*background-image: url("/static/images/sidebar_bg.jpg");*/
+  /*background-position: 0% 100%;*/
+  /*background-repeat: repeat-x;*/
   padding: 10px 0;
 }
 
@@ -327,9 +329,12 @@ body #centerblock #content #main #time .smalltime{
 #makecomment h4
 {
   /*font-size : 14px;*/
-  background-image: url("/static/images/sidebar_bg.jpg");
-  background-position: 0% 100%;
-  background-repeat: repeat-x;
+  /*background-image: url("/static/images/sidebar_bg.jpg");*/
+  border-bottom:4px solid #080808;
+  border-radius:4px; 
+  /*box-shadow: 0px 2px 2px rgba(08, 08, 08, 0.804);*/
+  /*background-position: 0% 100%;*/
+  /*background-repeat: repeat-x;*/
   /*font: normal normal 400 14px/30px "Droid Sans";*/
   font-family:"Microsoft YaHei", "微软雅黑", "WenQuanYi Zen Hei", "Droid Sans","Calibri";
   font-size: 16px;
